@@ -1,0 +1,38 @@
+#--------------------------------------
+# General 
+#--------------------------------------
+
+DISTRO ?= 'poky'
+PACKAGE_CLASSES ?= "package_ipk"
+SDKMACHINE = "x86_64"
+
+CONF_VERSION = "1"
+
+#--------------------------------------
+# Distro & image features 
+#--------------------------------------
+
+ENABLE_UART = "1"
+
+EXTRA_IMAGE_FEATURES = "debug-tweaks ssh-server-openssh "
+CORE_IMAGE_EXTRA_INSTALL = ""
+
+# Make the image more lightweight by removing unneeded features
+DISTRO_FEATURES_remove = "3g"
+DISTRO_FEATURES_remove = "nfc"
+DISTRO_FEATURES_remove = "nfs"
+DISTRO_FEATURES_remove = "ext2"
+
+#------------------
+# MACHINE selection
+#------------------
+MACHINE ??= "qemux86"
+
+#--------------------------------------
+# Licensing
+#--------------------------------------
+
+ACCEPT_FSL_EULA = "1"
+ACCEPT_TI_BT_LICENSE = "1"
+
+#--------------------------------------
