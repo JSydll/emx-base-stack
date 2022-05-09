@@ -29,7 +29,7 @@ function print_features()
 
 The reference implementation currently supports the following boards:
 
-  - raspberrypi3-mb     - Includes: Multiboot, update.
+  - raspberrypi3     - Includes: Multiboot, update.
 
 For these, the following images can be built:
 
@@ -71,4 +71,5 @@ fi
 
 print_features
 
+export BB_ENV_EXTRAWHITE="${BB_ENV_EXTRAWHITE} BSP_LAYER"
 ./environment/init.sh --env-file "${SCRIPT_DIR}/.env" "${POSITIONAL_ARGS[@]}"

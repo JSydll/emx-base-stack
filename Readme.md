@@ -9,11 +9,12 @@ that are built with the Yocto build system.
 
 **Planned features**:
 
-- Multiboot (A/B update schema) 
+- Dual boot (A/B update schema) 
 - Differential updates (using `casync`) over various sources
   - from media device (USB)
   - via network download (ssh)
   - over-the-air (using `hawkbit` as remote backend)
+- Bootcounter support
 - Application watchdog to determine system health
 - Authentication of updates via certificates
 - Support for update bundle encryption
@@ -35,7 +36,7 @@ used development boards, such as the Raspberry Pi.
 
 Currently supported boards:
 
-- RaspberryPi 3 B+ _[MACHINE=raspberrypi3-mb]
+- RaspberryPi 3 B+ _[MACHINE=raspberrypi3]
 
 
 ## Configuring the project
@@ -43,12 +44,16 @@ Currently supported boards:
 The build system is needs to be configured using an `.env` file, as documented [in the environment docs here](./environment/Readme.md). 
 A reference for the templates can be found under `./config`.
 
-The board specifc integrations can be selected using the apropriate `MACHINE` configuration (see above).
+The board specifc integrations can be selected using the appropriate `MACHINE` configuration (see above).
+For a correct configuration however, the `local.conf` must contain the `include conf/machine/${MACHINE}-extra.conf` statement.
+Also, the selection of the correct BSP layer requires the setting of the corresponding `BSP_LAYER` variable.
 
 
 ## Building the project
 
 To enter the build environment, simply execute `run-env.sh`. You can also forward build commands such as `bitbake -h` to this script.
 
-The environment allows you to expose additional variables to the bitbake environment using the standard Yocto way, 
+For example, execute `run-env.sh "MACHINE=raspberrypi3 BSP_LAYER=meta-raspberrypi bitbake core-image-minimal"` to start a build for one of the supported boards.
+
+The environment also allows you to expose additional variables to the bitbake environment using the standard Yocto way, 
 via `BB_ENV_EXTRAWHITE="MYVAR1 MYVAR2"`.

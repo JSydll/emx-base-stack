@@ -5,14 +5,19 @@ BBPATH = "${TOPDIR}"
 
 BBFILES ?= ""
 
-BBLAYERS ?= " \
+BSP_LAYER_PATH = " \
+  ##OEROOT##/../boards/${BSP_LAYER} \
+"
+
+BBLAYERS = " \
   ##OEROOT##/../poky/meta \
   ##OEROOT##/../poky/meta-poky \
   ##OEROOT##/../openembedded/meta-oe \
   ##OEROOT##/../openembedded/meta-multimedia \
   ##OEROOT##/../openembedded/meta-networking \
   ##OEROOT##/../openembedded/meta-python \
+  ${BSP_LAYER_PATH} \
+  ##OEROOT##/../meta-rauc \
+  ##OEROOT##/../meta-multiboot-update \
 "
 
-BBLAYERS_off =" \
-"

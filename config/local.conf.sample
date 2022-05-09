@@ -23,16 +23,24 @@ DISTRO_FEATURES_remove = "nfc"
 DISTRO_FEATURES_remove = "nfs"
 DISTRO_FEATURES_remove = "ext2"
 
-#------------------
-# MACHINE selection
-#------------------
-MACHINE ??= "qemux86"
-
 #--------------------------------------
 # Licensing
 #--------------------------------------
 
 ACCEPT_FSL_EULA = "1"
 ACCEPT_TI_BT_LICENSE = "1"
+
+#------------------
+# MACHINE extension
+#------------------
+
+# Make sure, the necessary extensions for the machine are used
+include conf/machine/${MACHINE}-extra.conf
+
+#----------------
+# Update settings
+#----------------
+DISTRO_FEATURES_append = " rauc"
+INIT_MANAGER = "systemd"
 
 #--------------------------------------

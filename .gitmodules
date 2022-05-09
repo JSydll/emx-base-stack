@@ -10,3 +10,11 @@
 	path = environment
 	url = https://github.com/JSydll/docker-yocto-env
 	branch = dunfell
+[submodule "sources/meta-rauc"]
+	path = sources/meta-rauc
+	url = https://github.com/rauc/meta-rauc.git
+	branch = dunfell
+[submodule "sources/boards/meta-raspberrypi"]
+	path = sources/boards/meta-raspberrypi
+	url = https://git.yoctoproject.org/git/meta-raspberrypi
+	branch = dunfell
