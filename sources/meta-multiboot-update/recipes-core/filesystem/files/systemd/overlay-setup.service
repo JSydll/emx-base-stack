@@ -1,0 +1,12 @@
+[Unit]
+Description=Setup directory structure for overlay to guarantee the mounts needed in fstab
+DefaultDependencies=no
+Before=local-fs.target
+RequiresMountsFor=/var/app
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/setup-overlays
+
+[Install]
+WantedBy=local-fs.target

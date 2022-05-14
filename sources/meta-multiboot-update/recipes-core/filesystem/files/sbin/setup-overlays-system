@@ -1,0 +1,10 @@
+#!/bin/bash
+# Setup directory structure for the overlay system to guarantee a mount point
+
+# System 
+mkdir -p /var/app/overlay/etc               /var/app/overlay/etc-work
+mkdir -p /var/app/overlay/var/lib           /var/app/overlay/var/lib-work
+# User and application
+mkdir -p /var/app/overlay/var/data/user     /var/app/overlay/var/data/user-work
+# Update
+mkdir -p /var/app/media

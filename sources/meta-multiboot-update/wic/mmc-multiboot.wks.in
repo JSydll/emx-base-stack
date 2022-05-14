@@ -1,0 +1,25 @@
+# ---------------------------------------
+# Multiboot layout (system + recoveryA/B)
+# ---------------------------------------
+
+# Bootloader 
+part u-boot --source rawcopy --sourceparams="file=u-boot.bin" --ondisk mmcblk --no-table --align 32
+
+# Recovery A
+# Offset of 2400S = 2400 sectors * 512 bytes = 1200 KiB
+part --source bootimg-partition --ondisk mmcblk --fstype=vfat --label boot_recov_a --offset 1400K --fixed-size 96M
+part --source rootfs --rootfs-dir recovery-image --ondisk mmcblk --fstype=squashfs --fixed-size 200M
+
+# Recovery B
+part --source bootimg-partition --ondisk mmcblk --fstype=vfat --label boot_recov_b --fixed-size 96M
+part --source rootfs --rootfs-dir recovery-image --ondisk mmcblk --fstype=squashfs --fixed-size 200M
+
+# System
+part --source bootimg-partition --ondisk mmcblk --fstype=vfat --label boot_system --fixed-size 96M
+part --source rootfs --rootfs-dir system-image --ondisk mmcblk --fstype=ext4 --fixed-size 500M
+
+# Persistent data partitions
+part --ondisk mmcblk --fstype=ext4 --label appfs --fixed-size 4G
+
+# Configuration
+bootloader --ptable msdos 

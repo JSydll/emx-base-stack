@@ -37,6 +37,10 @@ ACCEPT_TI_BT_LICENSE = "1"
 # Make sure, the necessary extensions for the machine are used
 include conf/machine/${MACHINE}-extra.conf
 
+# Defaults
+STORAGE_TYPE ?= "mmc"
+MMC_BLOCK_DEVICE ?= "/dev/mmcblk0"
+
 #----------------
 # Update settings
 #----------------

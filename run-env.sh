@@ -33,8 +33,9 @@ The reference implementation currently supports the following boards:
 
 For these, the following images can be built:
 
-  - full-[dev|prod]-image
-  - slot-[dev|prod]-image
+  - full-image
+  - recovery-image
+  - system-image
   - update-bundle
 
 EOF
