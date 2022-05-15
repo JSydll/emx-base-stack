@@ -15,7 +15,7 @@ for BOOT_SLOT in "${BOOT_ORDER}"; do
     if test ${BOOT_A_LEFT} -gt 0; then
       setexpr BOOT_A_LEFT ${BOOT_A_LEFT} - 1
       echo "Found valid RAUC slot A"
-      setenv bootpart "/dev/mmcblk0p2"
+      setenv bootpart "@@MMC_BLOCK_DEVICE@@p2"
       setenv raucslot "A"
       setenv BOOT_DEV "mmc 0:2"
     fi
@@ -23,7 +23,7 @@ for BOOT_SLOT in "${BOOT_ORDER}"; do
     if test ${BOOT_B_LEFT} -gt 0; then
       setexpr BOOT_B_LEFT ${BOOT_B_LEFT} - 1
       echo "Found valid RAUC slot B"
-      setenv bootpart "/dev/mmcblk0p3"
+      setenv bootpart "@@MMC_BLOCK_DEVICE@@p3"
       setenv raucslot "B"
       setenv BOOT_DEV "mmc 0:3"
     fi
