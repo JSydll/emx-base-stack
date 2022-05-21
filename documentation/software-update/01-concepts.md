@@ -30,7 +30,7 @@ This reference is based on the RAUC framework as it was proven to be relatively 
 To allow for the image-based updates a specific partitioning scheme needs to be employed:
 
 ```
-bootloader      | raw       |
+bootloader      | raw/vfat  |
 recov/boot      | vfat      |
 recov/fs        | squashfs  | ro
 sys/boot        | vfat      |
@@ -47,6 +47,8 @@ For each hardware target, a similar set of integration activities needs to be un
 - _Implement multiboot support_
   - _Boot command with slot selection_ (according to partition layout)
   - _Bootcounter for system health detection_
+- _Allow building necessary image artifacts_
+  - _In particular: Separate bootloader and kernel artifacts_
 
 **On project level**:
 
@@ -57,3 +59,5 @@ For each hardware target, a similar set of integration activities needs to be un
 - _Configure update source selection_
 - _Setup of overlays (partitions & squashfs) & base files_
 - _Test end-to-end Software Update process_
+
+Refer to the [integration subpage](./02-integration.md) for more details.
