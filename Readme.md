@@ -9,7 +9,7 @@ that are built with the Yocto build system.
 
 **Planned features**:
 
-- Dual boot (A/B update schema) 
+- Dual boot (recovery/system update schema) 
 - Differential updates (using `casync`) over various sources
   - from media device (USB)
   - via network download (ssh)

@@ -22,3 +22,5 @@ IMAGE_INSTALL += " \
 IMAGE_FEATURES += "\
     ssh-server-openssh \
 "
+
+IMAGE_FSTYPES = "ext4 wic.bz2 squashfs"

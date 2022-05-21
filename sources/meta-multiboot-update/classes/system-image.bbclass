@@ -7,7 +7,6 @@ LICENSE = "MIT"
 
 inherit minimal-image
 
-IMAGE_FSTYPES += "wic.bz2"
 WKS_FILE = "${STORAGE_TYPE}-single-partition.wks.in"
 
 IMAGE_INSTALL += " \
