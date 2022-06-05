@@ -1,46 +1,64 @@
-fdt addr ${fdt_addr} && fdt get value bootargs /chosen bootargs
+# Environment variables expected by RAUC
+# See https://rauc.readthedocs.io/en/latest/integration.html#set-up-u-boot-boot-script-for-rauc
+test -n "${BOOT_ORDER}" || setenv BOOT_ORDER "SYS RECOV"
+test -n "${BOOT_SYS_LEFT}" || setenv BOOT_SYS_LEFT 3
+test -n "${BOOT_RECOV_LEFT}" || setenv BOOT_RECOV_LEFT 3
 
-test -n "${BOOT_ORDER}" || setenv BOOT_ORDER "A B"
-test -n "${BOOT_A_LEFT}" || setenv BOOT_A_LEFT 3
-test -n "${BOOT_B_LEFT}" || setenv BOOT_B_LEFT 3
-test -n "${BOOT_DEV}" || setenv BOOT_DEV "mmc 0:1"
+# Partition scheme as defined in meta-multiboot-update/wic/mmc-multiboot.wks.in
+setenv mmc_device "@@MMC_BLOCK_DEVICE_NUM@@"
+setenv bootloader_partition "${mmcdevice}:1"
 
-setenv bootpart
-setenv raucslot
+setenv kernel_partition
+setenv rootfs_partition
+setenv rootfs_type
+setenv rauc_slot
 
-for BOOT_SLOT in "${BOOT_ORDER}"; do
-  if test "x${bootpart}" != "x"; then
-    # skip remaining slots
-  elif test "x${BOOT_SLOT}" = "xA"; then
-    if test ${BOOT_A_LEFT} -gt 0; then
-      setexpr BOOT_A_LEFT ${BOOT_A_LEFT} - 1
-      echo "Found valid RAUC slot A"
-      setenv bootpart "@@MMC_BLOCK_DEVICE@@p2"
-      setenv raucslot "A"
-      setenv BOOT_DEV "mmc 0:2"
+echo "=== Determining active slot to be booted ==="
+for slot in "${BOOT_ORDER}"; do
+  if test "x${rauc_slot}" != "x"; then
+    # rauc_slot already found, performing no-op
+  elif test "x${slot}" = "xSYS"; then
+    if test ${BOOT_SYS_LEFT} -gt 0; then
+      setexpr BOOT_SYS_LEFT ${BOOT_SYS_LEFT} - 1
+      echo "Found valid SYSTEM slot!"
+      setenv kernel_partition "2"
+      setenv rootfs_partition "3"
+      setenv rootfs_type "squashfs"
+      setenv rauc_slot "SYS"
     fi
-  elif test "x${BOOT_SLOT}" = "xB"; then
-    if test ${BOOT_B_LEFT} -gt 0; then
-      setexpr BOOT_B_LEFT ${BOOT_B_LEFT} - 1
-      echo "Found valid RAUC slot B"
-      setenv bootpart "@@MMC_BLOCK_DEVICE@@p3"
-      setenv raucslot "B"
-      setenv BOOT_DEV "mmc 0:3"
+  elif test "x${slot}" = "xRECOV"; then
+    if test ${BOOT_RECOV_LEFT} -gt 0; then
+      setexpr BOOT_RECOV_LEFT ${BOOT_RECOV_LEFT} - 1
+      echo "Found valid RECOVERY slot!"
+      # Account for the msdos extended partition (p4)
+      setenv kernel_partition "5"
+      setenv rootfs_partition "6"
+      setenv rootfs_type "ext4"
+      setenv rauc_slot "RECOV"
     fi
   fi
 done
 
-if test -n "${bootpart}"; then
-  setenv bootargs "${bootargs} root=${bootpart} rauc.slot=${raucslot}"
-  saveenv
-else
-  echo "No valid RAUC slot found. Resetting tries to 3"
-  setenv BOOT_A_LEFT 3
-  setenv BOOT_B_LEFT 3
+if test "x${rauc_slot}" == "x"; then
+  echo "No valid slot found! Resetting tries to 3 and resetting..."
+  setenv BOOT_SYS_LEFT 3
+  setenv BOOT_RECOV_LEFT 3
   saveenv
   reset
 fi
 
-fatload mmc 0:1 ${kernel_addr_r} @@KERNEL_IMAGETYPE@@
-if test ! -e mmc 0:1 uboot.env; then saveenv; fi;
-@@KERNEL_BOOTCMD@@ ${kernel_addr_r} - ${fdt_addr}
+mmc dev ${mmcdevice}
+
+echo "=== Loading device tree and chosen bootargs from partition ${kernel_partition} ==="
+fatload mmc ${mmc_device}:${kernel_partition} ${fdt_addr_r} @@DTB_FILE_NAME@@
+fdt get value bootargs /chosen bootargs
+
+echo "=== Setting bootargs (rootfs in partition ${rootfs_partition} and slot ${rauc_slot}) ==="
+setenv bootargs "${bootargs} root=/dev/mmcblk${mmc_device}p${rootfs_partition} rootfstype=${rootfs_type} rauc.slot=${rauc_slot}"
+saveenv
+
+echo "=== Persisting environment in partition ${bootloader_partition} ==="
+if test ! -e mmc ${mmc_device}:${bootloader_partition} uboot.env; then saveenv; fi;
+
+echo "=== Booting the system now! ==="
+@@KERNEL_BOOTCMD@@ ${kernel_addr_r} - ${fdt_addr_r}

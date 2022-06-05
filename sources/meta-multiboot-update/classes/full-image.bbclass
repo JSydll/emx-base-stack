@@ -14,7 +14,7 @@ PACKAGE_INSTALL = ""
 
 inherit image
 
-IMAGE_FSTYPES = "wic.bz2"
+IMAGE_FSTYPES = "wic wic.bz2"
 WKS_FILE = "${STORAGE_TYPE}-multiboot.wks.in"
 
 DEPENDS += " \
