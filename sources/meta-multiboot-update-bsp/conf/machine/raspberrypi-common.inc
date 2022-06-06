@@ -1,5 +1,6 @@
 # System capabilities
 ENABLE_UART = "1"
+DISABLE_SPLASH = "1"
 DISABLE_RPI_BOOT_LOGO = "1"
 
 DISTRO_FEATURES_append = " systemd"
@@ -23,7 +24,7 @@ PREFERRED_RPROVIDER_u-boot-default-env = "libubootenv"
 RPI_EXTRA_CONFIG_append = " \n# Enforce u-boot as 4th-stage bootloader \nkernel=u-boot.bin \n"
 
 # Extensions
-IMAGE_CLASSES_append = " bootloader_image-rpi"
+IMAGE_CLASSES_append = " bootloader-image-rpi"
 
 # Image features
 IMAGE_INSTALL_append = " linux-firmware-bcm43430 i2c-tools"

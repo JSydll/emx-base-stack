@@ -10,7 +10,7 @@ do_rootfs[depends] += "\
 
 WIC_BOOTLOADER_PART_CMD = "\
     --source rawcopy --sourceparams='file=bootloader-image-rpi-raspberrypi3.vfat' \
-    --fstype=vfat --label boot --active --align 4096 --size 20\
+    --fstype=vfat --label boot --active --align 4096 --size 25M\
 "
 WIC_TARGET_BOOTLOADER_CONFIG = "--ptable ${PTABLE_TYPE}"
 WIC_FIRST_PARTITION_OFFSET = "4M" 

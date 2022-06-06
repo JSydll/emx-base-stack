@@ -12,4 +12,4 @@ PACKAGE_INSTALL = ""
 
 inherit image
 
-IMAGE_FSTYPES = "bootloader_image-rpi"
+IMAGE_FSTYPES = "bootloader-image-rpi"

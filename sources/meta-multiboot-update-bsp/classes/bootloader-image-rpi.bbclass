@@ -16,7 +16,7 @@ inherit image_types
 inherit logging
 
 # Constants taken from sdcard_image-rpi.bbclass and rpi-base.inc
-RPI_BOOTLOADER_SPACE ?= "20480"
+RPI_BOOTLOADER_SPACE ?= "25600"
 RPI_FILESYSTEM_ALIGNMENT = "4096"
 
 RPI_BOOTLOADER_FILES = "${BOOTFILES_DIR_NAME}/* u-boot.bin boot.scr"
@@ -27,7 +27,6 @@ RPI_BOOTLOADER_LINK_IMG = "${IMAGE_LINK_NAME}.vfat"
 do_image_bootloader_image_rpi[depends] = " \
     mtools-native:do_populate_sysroot \
     dosfstools-native:do_populate_sysroot \
-    virtual/kernel:do_deploy \
     ${IMAGE_BOOTLOADER}:do_deploy \
     rpi-config:do_deploy \
     u-boot:do_deploy \
@@ -36,7 +35,7 @@ do_image_bootloader_image_rpi[depends] = " \
 do_image_bootloader_image_rpi[recrdeps] = "do_build"
 
 # Creates the raspberrypi3 specific vfat image before starting to assemble the multiboot image
-IMAGE_CMD_bootloader_image-rpi() {
+IMAGE_CMD_bootloader-image-rpi() {
     img_file="${WORKDIR}/bootloader.vfat"
 
     # Calculate aligned size and boot blocks
@@ -45,18 +44,24 @@ IMAGE_CMD_bootloader_image-rpi() {
     boot_blocks=$(expr ${aligned_size} \+ ${RPI_FILESYSTEM_ALIGNMENT})
     
     # Create a vfat image file for the boot files
-    rm -f ${img_file}
+    if [ -e ${img_file} ]; then 
+        rm -f ${img_file}
+    fi
     mkfs.vfat -F32 -S 512 -C ${img_file} ${boot_blocks}
 
     # Deploy the boot artifacts to the vfat image
-    mcopy -v -i ${img_file} -s ${DEPLOY_DIR_IMAGE}/${BOOTFILES_DIR_NAME}/* ::/  || bbfatal "mcopy cannot copy ${DEPLOY_DIR_IMAGE}/${BOOTFILES_DIR_NAME}/* into bootloader image!"
-    # Note: Copying u-boot under its actual name (requires config.txt setting kernel=u-boot.bin)
-    mcopy -v -i ${img_file} -s ${DEPLOY_DIR_IMAGE}/u-boot.bin              ::/  || bbfatal "mcopy cannot copy ${DEPLOY_DIR_IMAGE}/u-boot.bin into bootloader image!"
-    mcopy -v -i ${img_file} -s ${DEPLOY_DIR_IMAGE}/boot.scr                ::/  || bbfatal "mcopy cannot copy ${DEPLOY_DIR_IMAGE}/boot.scr into bootloader image!"   
+    mcopy -v -i ${img_file} -s ${DEPLOY_DIR_IMAGE}/${BOOTFILES_DIR_NAME}/* ::/ \
+        || bbfatal "mcopy cannot copy ${DEPLOY_DIR_IMAGE}/${BOOTFILES_DIR_NAME}/* into bootloader image!"
+    # Note: Requires explicit setting of kernel=u-boot in config.txt
+    mcopy -v -i ${img_file} -s ${DEPLOY_DIR_IMAGE}/u-boot.bin  ::/ \
+        || bbfatal "mcopy cannot copy ${DEPLOY_DIR_IMAGE}/u-boot.bin into bootloader image!"
+    mcopy -v -i ${img_file} -s ${DEPLOY_DIR_IMAGE}/boot.scr    ::/ \
+        || bbfatal "mcopy cannot copy ${DEPLOY_DIR_IMAGE}/boot.scr into bootloader image!" 
 
     # Add stamp file
     echo "${IMAGE_NAME}" > ${WORKDIR}/image-version-info
-    mcopy -v -i ${img_file} ${WORKDIR}/image-version-info  ::/  || bbfatal "mcopy cannot copy ${WORKDIR}/image-version-info into bootloader image!"
+    mcopy -v -i ${img_file} ${WORKDIR}/image-version-info  ::/ \
+        || bbfatal "mcopy cannot copy ${WORKDIR}/image-version-info into bootloader image!"
 
     # Deploy the vfat image
     cp -v ${img_file} ${IMGDEPLOYDIR}/${RPI_BOOTLOADER_IMG}

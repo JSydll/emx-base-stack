@@ -12,8 +12,6 @@ CONF_VERSION = "1"
 # Distro & image features 
 #--------------------------------------
 
-ENABLE_UART = "1"
-
 EXTRA_IMAGE_FEATURES = "debug-tweaks ssh-server-openssh "
 CORE_IMAGE_EXTRA_INSTALL = ""
 
