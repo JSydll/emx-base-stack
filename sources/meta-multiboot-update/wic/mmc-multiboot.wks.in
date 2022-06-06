@@ -4,19 +4,19 @@
 
 # Bootloader Integration
 # The target implementation must provide specific artifacts and fstypes
-part bootloader --ondisk mmcblk ${WIC_BOOTLOADER_PART_CMD}
+part bootloader --ondisk ${MMC_BLOCK_DEVICE} ${WIC_BOOTLOADER_PART_CMD}
 
 # Recovery
 # The target implementation must provide the necessary IMAGE_BOOT_FILES 
-part --source bootimg-partition --ondisk mmcblk --fstype=vfat --label boot_recov ${WIC_FIRST_PARTITION_OFFSET} --fixed-size ${WIC_KERNELIMG_PART_SIZE}
-part --source rootfs --rootfs-dir recovery-image --ondisk mmcblk --fstype=squashfs --fixed-size ${WIC_RECOVERY_ROOTFS_PART_SIZE}
+part --source bootimg-partition --ondisk ${MMC_BLOCK_DEVICE} --fstype=vfat --label boot_recov ${WIC_FIRST_PARTITION_OFFSET} --fixed-size ${WIC_KERNELIMG_PART_SIZE}
+part --source rootfs --rootfs-dir recovery-image --ondisk ${MMC_BLOCK_DEVICE} --fstype=squashfs --fixed-size ${WIC_RECOVERY_ROOTFS_PART_SIZE}
 
 # System (incl. update capability)
-part --source bootimg-partition --ondisk mmcblk --fstype=vfat --label boot_system --fixed-size ${WIC_KERNELIMG_PART_SIZE}
-part --source rootfs --rootfs-dir system-image --ondisk mmcblk --fstype=ext4 --fixed-size ${WIC_SYSTEM_ROOTFS_PART_SIZE}
+part --source bootimg-partition --ondisk ${MMC_BLOCK_DEVICE} --fstype=vfat --label boot_system --fixed-size ${WIC_KERNELIMG_PART_SIZE}
+part --source rootfs --rootfs-dir system-image --ondisk ${MMC_BLOCK_DEVICE} --fstype=ext4 --fixed-size ${WIC_SYSTEM_ROOTFS_PART_SIZE}
 
 # Persistent data partitions
-part --ondisk mmcblk --fstype=ext4 --label appfs --fixed-size ${WIC_APPFS_PART_SIZE}
+part --ondisk ${MMC_BLOCK_DEVICE} --fstype=ext4 --label appfs --fixed-size ${WIC_APPFS_PART_SIZE}
 
 # Configuration
 bootloader ${WIC_TARGET_BOOTLOADER_CONFIG}

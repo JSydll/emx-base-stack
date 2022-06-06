@@ -8,9 +8,7 @@ VIRTUAL-RUNTIME_init_manager = "systemd"
 DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
 VIRTUAL-RUNTIME_initscripts = ""
 
-# Storage and partitioning
-STORAGE_TYPE = "mmc"
-MMC_BLOCK_DEVICE = "/dev/mmcblk0"
+# Partition table properties
 PTABLE_TYPE = "msdos"
 
 # u-boot settings

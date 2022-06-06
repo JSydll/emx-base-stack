@@ -69,4 +69,4 @@ IMAGE_CMD_bootloader-image-rpi() {
 }
 
 # Remove bootloader from IMAGE_BOOT_FILES as this will be used to create the kernel partitions
-IMAGE_BOOT_FILES_remove = "${RPI_BOOTLOADER_FILES}" 
+IMAGE_BOOT_FILES_remove = "${RPI_BOOTLOADER_FILES} ${SDIMG_KERNELIMAGE}" 

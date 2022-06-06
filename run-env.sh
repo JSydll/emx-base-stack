@@ -72,5 +72,5 @@ fi
 
 print_features
 
-export BB_ENV_EXTRAWHITE="${BB_ENV_EXTRAWHITE} BSP_LAYER"
+export BB_ENV_EXTRAWHITE="${BB_ENV_EXTRAWHITE} BSP_LAYER STORAGE_TYPE MMC_BLOCK_DEVICE"
 ./environment/init.sh --env-file "${SCRIPT_DIR}/.env" "${POSITIONAL_ARGS[@]}"
