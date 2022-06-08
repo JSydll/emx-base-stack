@@ -8,6 +8,10 @@ do_rootfs[depends] += "\
     bootloader-image-rpi:do_image_complete \
 "
 
+# Remove bootloader files from IMAGE_BOOT_FILES (as these can be used with wic's bootimg-partition 
+# to create kernel partitions)
+IMAGE_BOOT_FILES_remove = "${RPI_BOOTLOADER_FILES}" 
+
 WIC_BOOTLOADER_PART_CMD = "\
     --source rawcopy --sourceparams='file=bootloader-image-rpi-raspberrypi3.vfat' \
     --fstype=vfat --label boot --active --align 4096 --size 25M\

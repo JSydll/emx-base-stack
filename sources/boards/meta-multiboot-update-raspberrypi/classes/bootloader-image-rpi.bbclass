@@ -4,7 +4,7 @@ inherit image_types
 # --------------
 #
 # The meta-raspberrypi BSP layer assumes that the bootloader is in the same (vfat) partition 
-# as the kernel and device tree files. However, this is not desired for the multiboot pertition
+# as the kernel and device tree files. However, this is not desired for the multiboot partition
 # scheme as the kernel artifacts shall be updateable (but the bootloader not).
 #
 # To separate the bootloader files from the kernel related ones, a separate vfat image that only 
@@ -67,6 +67,3 @@ IMAGE_CMD_bootloader-image-rpi() {
     cp -v ${img_file} ${IMGDEPLOYDIR}/${RPI_BOOTLOADER_IMG}
     ln -svf ${RPI_BOOTLOADER_IMG} "${IMGDEPLOYDIR}/${RPI_BOOTLOADER_LINK_IMG}"
 }
-
-# Remove bootloader from IMAGE_BOOT_FILES as this will be used to create the kernel partitions
-IMAGE_BOOT_FILES_remove = "${RPI_BOOTLOADER_FILES} ${SDIMG_KERNELIMAGE}" 

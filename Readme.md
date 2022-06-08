@@ -49,10 +49,11 @@ For a correct configuration however, the `local.conf` must contain the `include 
 
 Further required configuration parameters:
 ```
-MACHINE           | Machine to build for.
-BSP_LAYER         | Layer containing the machine configuration and BSP packages.
-STORAGE_TYPE      | Type of persistent storage (available options: [mmc], default: 'mmc').
-MMC_BLOCK_DEVICE  | Allows specification of a custom eMMC block device (default: '/dev/mmcblk0') - only evaluated if STORAGE_TYPE is 'mmc'.
+MACHINE               | Machine to build for.
+BSP_LAYER             | Layer containing the machine configuration and BSP packages.
+BSP_EXTENSION_LAYER   | Layer containing extension necessary to support multiboot update on the given BSP
+STORAGE_TYPE          | Type of persistent storage (available options: [mmc], default: 'mmc').
+MMC_BLOCK_DEVICE      | Allows specification of a custom eMMC block device (default: '/dev/mmcblk0') - only evaluated if STORAGE_TYPE is 'mmc'.
 ```
 
 See `.env.example` for a reference of the syntax.

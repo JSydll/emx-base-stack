@@ -8,7 +8,7 @@ of the bootloader code to be able to deal with the multiboot partitioning scheme
 as well as the creation of proper installation artifacts.
 
 In this repository, the general multiboot integration is done in the `meta-multiboot-update`
-layer, which in turn is based on the `meta-multiboot-update-bsp` layer.
+layer, which in turn is based on the `meta-multiboot-update-raspberrypi` layer.
 
 Hardware boards with multiboot integration:
 

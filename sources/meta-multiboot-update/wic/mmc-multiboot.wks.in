@@ -4,7 +4,7 @@
 
 # Bootloader Integration
 # The target implementation must provide specific artifacts and fstypes
-part bootloader --ondisk ${MMC_BLOCK_DEVICE} ${WIC_BOOTLOADER_PART_CMD}
+part /boot --ondisk ${MMC_BLOCK_DEVICE} ${WIC_BOOTLOADER_PART_CMD}
 
 # Recovery
 # The target implementation must provide the necessary IMAGE_BOOT_FILES 
@@ -16,7 +16,7 @@ part --source bootimg-partition --ondisk ${MMC_BLOCK_DEVICE} --fstype=vfat --lab
 part --source rootfs --rootfs-dir system-image --ondisk ${MMC_BLOCK_DEVICE} --fstype=ext4 --fixed-size ${WIC_SYSTEM_ROOTFS_PART_SIZE}
 
 # Persistent data partitions
-part --ondisk ${MMC_BLOCK_DEVICE} --fstype=ext4 --label appfs --fixed-size ${WIC_APPFS_PART_SIZE}
+#part --ondisk ${MMC_BLOCK_DEVICE} --fstype=ext4 --label appfs --fixed-size ${WIC_APPFS_PART_SIZE}
 
 # Configuration
 bootloader ${WIC_TARGET_BOOTLOADER_CONFIG}

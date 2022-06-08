@@ -32,13 +32,11 @@ ACCEPT_TI_BT_LICENSE = "1"
 # MACHINE extension
 #------------------
 
+# Default values
+STORAGE_TYPE ?= "mmc"
+MMC_BLOCK_DEVICE ?= "mmcblk0"
+
 # Make sure, the necessary extensions for the machine are used
 include conf/machine/${MACHINE}-extra.conf
-
-#----------------
-# Update settings
-#----------------
-DISTRO_FEATURES_append = " rauc"
-INIT_MANAGER = "systemd"
 
 #--------------------------------------
