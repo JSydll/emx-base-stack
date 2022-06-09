@@ -1,20 +1,14 @@
 # -----------------------------------------------
 # Multiboot partition scheme variable definitions
 # -----------------------------------------------
-DEPENDS += " \
-    bootloader-image-rpi \
-"
-do_rootfs[depends] += "\
-    bootloader-image-rpi:do_image_complete \
-"
 
-# Remove bootloader files from IMAGE_BOOT_FILES (as these can be used with wic's bootimg-partition 
-# to create kernel partitions)
-IMAGE_BOOT_FILES_remove = "${RPI_BOOTLOADER_FILES}" 
+DEPENDS += " \
+    rpi-bootloader-files \
+"
 
 WIC_BOOTLOADER_PART_CMD = "\
-    --source rawcopy --sourceparams='file=bootloader-image-rpi-raspberrypi3.vfat' \
-    --fstype=vfat --label boot --active --align 4096 --size 25M\
+    --source extract-from-archive --sourceparams='file=rpi-bootloader-files.tar.gz' \
+    --fstype=vfat --label boot --active --align 4096 --fixed-size 25M\
 "
 WIC_TARGET_BOOTLOADER_CONFIG = "--ptable ${PTABLE_TYPE}"
 WIC_FIRST_PARTITION_OFFSET = "4M" 

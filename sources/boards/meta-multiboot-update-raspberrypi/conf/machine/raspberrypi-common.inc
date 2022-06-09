@@ -16,13 +16,24 @@ RPI_USE_U_BOOT = "1"
 PREFERRED_PROVIDER_virtual/bootloader = "u-boot"
 PREFERRED_RPROVIDER_u-boot-default-env = "libubootenv"
 
+# Bootloader files handling
+# Note: This will only work if the rpi-bootloader-files are deployed!
+
+# Set of bootloader files
+RPI_BOOTLOADER_FILES = "${BOOTFILES_DIR_NAME}/* boot.scr u-boot.bin"
+
+# Remove from IMAGE_BOOT_FILES (as these can then be used with wic's 
+# bootimg-partition to create kernel partitions), also accounting for 
+# renaming of u-boot.bin.
+IMAGE_BOOT_FILES_remove = "${RPI_BOOTLOADER_FILES};${SDIMG_KERNELIMAGE}" 
+
 # The sdcard_image-rpi.bbclass uses a slight hack to have u-boot as bootloader: It stores u-boot.bin
 # as ${SDIMG_KERNELIMAGE} (board-specific kernel image name) so no changes in config.txt are needed.
 # But we set the kernel name explicit to make this more transparent.
 RPI_EXTRA_CONFIG_append = " \n# Enforce u-boot as 4th-stage bootloader \nkernel=u-boot.bin \n"
 
-# Extensions
-IMAGE_CLASSES_append = " bootloader-image-rpi"
-
 # Image features
-IMAGE_INSTALL_append = " linux-firmware-bcm43430 i2c-tools"
+IMAGE_INSTALL_append = " \
+    linux-firmware-bcm43430 \
+    i2c-tools \
+"

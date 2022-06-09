@@ -4,7 +4,7 @@
 
 # Bootloader Integration
 # The target implementation must provide specific artifacts and fstypes
-part /boot --ondisk ${MMC_BLOCK_DEVICE} ${WIC_BOOTLOADER_PART_CMD}
+part --ondisk ${MMC_BLOCK_DEVICE} ${WIC_BOOTLOADER_PART_CMD}
 
 # Recovery
 # The target implementation must provide the necessary IMAGE_BOOT_FILES 

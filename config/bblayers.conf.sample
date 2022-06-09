@@ -13,6 +13,7 @@ BSP_LAYERS = " \
 BBLAYERS = " \
   ##OEROOT##/../poky/meta \
   ##OEROOT##/../poky/meta-poky \
+  ##OEROOT##/../poky-extensions \
   ##OEROOT##/../openembedded/meta-oe \
   ##OEROOT##/../openembedded/meta-multimedia \
   ##OEROOT##/../openembedded/meta-networking \
