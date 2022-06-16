@@ -26,18 +26,17 @@ do_compile() {
     bbdebug 2 "Adding bootloader files in ${WORKDIR}/files to archive..."
     tar -czf ${RPI_BOOTLOADER_FILES_PACKAGE} -C ${WORKDIR}/files .
 }
-
-do_deploy() {
-    install -d ${DEPLOYDIR}
-    install -m 0644 ${RPI_BOOTLOADER_FILES_PACKAGE} ${DEPLOYDIR}
-}
-
-do_deploy[depends] += " \
+do_compile[depends] += " \
     bootfiles:do_deploy \
     rpi-config:do_deploy \
     u-boot:do_deploy \
     u-boot-default-script:do_deploy \
 "
+
+do_deploy() {
+    install -d ${DEPLOYDIR}
+    install -m 0644 ${RPI_BOOTLOADER_FILES_PACKAGE} ${DEPLOYDIR}
+}
 addtask do_deploy after do_compile before do_build
 
 

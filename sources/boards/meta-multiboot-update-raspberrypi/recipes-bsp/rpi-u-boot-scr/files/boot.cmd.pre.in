@@ -7,6 +7,7 @@ test -n "${BOOT_RECOV_LEFT}" || setenv BOOT_RECOV_LEFT 3
 # Partition scheme as defined in meta-multiboot-update/wic/mmc-multiboot.wks.in
 setenv mmc_device "@@MMC_BLOCK_DEVICE_NUM@@"
 setenv bootloader_partition "1"
+setenv bootargs_default "@@DEFAULT_BOOTARGS@@"
 
 setenv kernel_partition
 setenv rootfs_partition
@@ -18,24 +19,24 @@ for slot in "${BOOT_ORDER}"; do
   if test "x${rauc_slot}" != "x"; then
     # rauc_slot already found, performing no-op
     echo "[DEBUG] Skipping ${slot} slot..."
-  elif test "x${slot}" = "xSYS"; then
-    if test ${BOOT_SYS_LEFT} -gt 0; then
-      setexpr BOOT_SYS_LEFT ${BOOT_SYS_LEFT} - 1
-      setenv kernel_partition "2"
-      setenv rootfs_partition "3"
-      setenv rootfs_type "squashfs"
-      setenv rauc_slot "SYS"
-      echo "[INFO] Selected SYSTEM slot (kernel in p2, rootfs in p3)!"
-    fi
   elif test "x${slot}" = "xRECOV"; then
     if test ${BOOT_RECOV_LEFT} -gt 0; then
       setexpr BOOT_RECOV_LEFT ${BOOT_RECOV_LEFT} - 1
+      setenv kernel_partition "2"
+      setenv rootfs_partition "3"
+      setenv rootfs_type "squashfs"
+      setenv rauc_slot "RECOV"
+      echo "[INFO] Selected RECOVERY slot (kernel in p2, rootfs in p3)!"
+    fi
+  elif test "x${slot}" = "xSYS"; then
+    if test ${BOOT_SYS_LEFT} -gt 0; then
+      setexpr BOOT_SYS_LEFT ${BOOT_SYS_LEFT} - 1
       # Account for the msdos extended partition (p4)
       setenv kernel_partition "5"
       setenv rootfs_partition "6"
       setenv rootfs_type "ext4"
-      setenv rauc_slot "RECOV"
-      echo "[INFO] Selected RECOVERY slot (kernel in p5, rootfs in p6)!"
+      setenv rauc_slot "SYS"
+      echo "[INFO] Selected SYSTEM slot (kernel in p5, rootfs in p6)!"
     fi
   fi
 done
@@ -48,20 +49,17 @@ if test "x${rauc_slot}" = "x"; then
   exit
 fi
 
-echo "=== Loading device tree and chosen bootargs from partition ${kernel_partition} ==="
-if test ! fatload mmc ${mmc_device}:${kernel_partition} ${fdt_addr_r} @@DTB_FILE_NAME@@; then
-  echo "[ERROR] Could not load device tree. Aborting..."
-  exit
-fi
-if test ! fdt get value bootargs /chosen bootargs; then
-  echo "[ERROR] Could not fetch default bootargs. Aborting..."
-  exit
-fi
+echo "=== Loading device tree ('@@DTB_FILE_NAME@@') from p${kernel_partition} to ${fdt_addr_r} ==="
+fatload mmc ${mmc_device}:${kernel_partition} ${fdt_addr_r} @@DTB_FILE_NAME@@
 
-echo "=== Setting bootargs (rootfs in partition ${rootfs_partition} and slot ${rauc_slot}) ==="
-setenv bootargs "${bootargs} root=/dev/mmcblk${mmc_device}p${rootfs_partition} rootfstype=${rootfs_type} rauc.slot=${rauc_slot}"
+echo "=== Loading kernel image ('@@KERNEL_IMAGETYPE@@') from p${kernel_partition} to ${kernel_addr_r} ==="
+fatload mmc ${mmc_device}:${kernel_partition} ${kernel_addr_r} @@KERNEL_IMAGETYPE@@
 
-echo "=== Persisting environment in partition ${bootloader_partition} ==="
+echo "=== Setting bootargs (rootfs in p${rootfs_partition} and slot ${rauc_slot}) ==="
+setenv bootargs "${bootargs_default} root=/dev/mmcblk${mmc_device}p${rootfs_partition} rootfstype=${rootfs_type} rauc.slot=${rauc_slot}"
+echo "[DEBUG] bootargs: ${bootargs}"
+
+echo "=== Persisting environment in p${bootloader_partition} ==="
 if test ! -e mmc ${mmc_device}:${bootloader_partition} uboot.env; then 
   saveenv
 fi
