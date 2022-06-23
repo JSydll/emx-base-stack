@@ -15,5 +15,5 @@ SRC_URI += " \
 "
 
 do_install_append() {
-    install -m 755 ${WORKDIR}/sbin/setup-overlays-recovery ${D}/${sbindir}
+    install -m 755 ${WORKDIR}/sbin/setup-overlays-recovery ${D}/${sbindir}/setup-overlays
 }

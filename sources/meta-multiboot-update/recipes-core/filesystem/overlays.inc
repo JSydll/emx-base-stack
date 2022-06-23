@@ -9,11 +9,7 @@ SYSTEMD_SERVICE_${PN} = " \
 "
 
 FILES_${PN} += "\
-    ${sbindir}/* \
-    ${localstatedir} \
-    ${sysconfdir} \
     ${systemd_unitdir}/system/* \
-    home \
 "
 
 do_install() {
