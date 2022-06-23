@@ -6,10 +6,10 @@ that are built with the Yocto build system.
 **Current features**:
 
 - Basic stack structure
+- Dual boot (recovery/system update schema) _[for RaspberryPi 3]_
 
 **Planned features**:
 
-- Dual boot (recovery/system update schema) 
 - Differential updates (using `casync`) over various sources
   - from media device (USB)
   - via network download (ssh)

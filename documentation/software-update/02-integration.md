@@ -12,4 +12,4 @@ layer, which in turn is based on the `meta-multiboot-update-raspberrypi` layer.
 
 Hardware boards with multiboot integration:
 
-- [RaspberryPi 3](./03-raspberrypi.md)
+- [RaspberryPi 3](./../board-integrations/01-raspberrypi.md)
