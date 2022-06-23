@@ -14,3 +14,5 @@ IMAGE_INSTALL += " \
     overlays-recovery \
     base-files-recovery \
 "
+
+IMAGE_FSTYPES = "squashfs wic.bz2"

@@ -14,8 +14,8 @@ PACKAGE_INSTALL = ""
 
 inherit image
 
-IMAGE_FSTYPES = "wic wic.bz2"
 WKS_FILE = "${STORAGE_TYPE}-multiboot.wks.in"
+IMAGE_FSTYPES = "wic wic.bz2"
 
 DEPENDS += " \
     recovery-image \

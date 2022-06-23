@@ -8,6 +8,7 @@ LICENSE = "MIT"
 inherit core-image
 
 IMAGE_INSTALL += " \
+    bash \
     iproute2 \
     man \
     nano \
@@ -22,5 +23,3 @@ IMAGE_INSTALL += " \
 IMAGE_FEATURES += "\
     ssh-server-openssh \
 "
-
-IMAGE_FSTYPES = "ext4 wic.bz2 squashfs"

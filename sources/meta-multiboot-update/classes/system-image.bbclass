@@ -14,3 +14,5 @@ IMAGE_INSTALL += " \
     overlays-system \
     base-files-system \
 "
+
+IMAGE_FSTYPES = "ext4 wic.bz2"
