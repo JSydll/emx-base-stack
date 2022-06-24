@@ -1,14 +1,18 @@
+[submodule "environment"]
+	path = environment
+	url = https://github.com/JSydll/docker-yocto-env
+	branch = dunfell
 [submodule "sources/poky"]
 	path = sources/poky
 	url = https://git.yoctoproject.org/poky
 	branch = dunfell
+[submodule "sources/meta-poky-extensions"]
+	path = sources/meta-poky-extensions
+	url = https://github.com/JSydll/meta-poky-extensions
+	branch = dunfell
 [submodule "sources/openembedded"]
 	path = sources/openembedded
 	url = https://github.com/openembedded/meta-openembedded
-	branch = dunfell
-[submodule "environment"]
-	path = environment
-	url = https://github.com/JSydll/docker-yocto-env
 	branch = dunfell
 [submodule "sources/meta-rauc"]
 	path = sources/meta-rauc
