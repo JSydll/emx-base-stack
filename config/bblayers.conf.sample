@@ -22,5 +22,6 @@ BBLAYERS = " \
   ${BSP_LAYERS} \
   ##OEROOT##/../meta-multiboot-update \
   ##OEROOT##/../meta-common-configs \
+  ##OEROOT##/../meta-custom \
 "
 

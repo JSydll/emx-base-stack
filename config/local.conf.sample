@@ -8,6 +8,13 @@ SDKMACHINE = "x86_64"
 
 CONF_VERSION = "1"
 
+# -------------------------------------
+# Device / distro infos
+# -------------------------------------
+hostname_pn-base-files = "updatable-pi"
+DISTRO_NAME_pn-base-files = "emx-base"
+DISTRO_VERSION_pn-base-files = "0.1.0"
+
 #--------------------------------------
 # Distro & image features 
 #--------------------------------------
@@ -38,5 +45,11 @@ MMC_BLOCK_DEVICE ?= "mmcblk0"
 
 # Make sure, the necessary extensions for the machine are used
 include conf/machine/${MACHINE}-extra.conf
+
+#------------------
+# Image definitions
+#------------------
+RECOVERY_IMAGE_NAME = "custom-recovery-image"
+SYSTEM_IMAGE_NAME = "custom-system-image"
 
 #--------------------------------------

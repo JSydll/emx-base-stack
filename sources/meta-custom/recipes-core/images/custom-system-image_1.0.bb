@@ -1,8 +1,8 @@
 # -------------------------------------------------------------------
-# Full multiboot system image
+# Core system only image
 # -------------------------------------------------------------------
-SUMMARY = "An image with a complete partitioning and multiboot support."
+SUMMARY = "A custom system image with everything installed."
 
 LICENSE = "MIT"
 
-inherit full-image
+inherit custom-system-image

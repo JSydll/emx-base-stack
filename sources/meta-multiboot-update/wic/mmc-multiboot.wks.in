@@ -8,15 +8,15 @@ part --ondisk ${MMC_BLOCK_DEVICE} ${WIC_BOOTLOADER_PART_CMD}
 
 # Recovery
 # The target implementation must provide the necessary IMAGE_BOOT_FILES 
-part --ondisk ${MMC_BLOCK_DEVICE} --source bootimg-partition                  --fstype=vfat     --fixed-size ${WIC_KERNELIMG_PART_SIZE} ${WIC_FIRST_PARTITION_OFFSET} --label boot_recov 
-part --ondisk ${MMC_BLOCK_DEVICE} --source rootfs --rootfs-dir recovery-image --fstype=squashfs --fixed-size ${WIC_RECOVERY_ROOTFS_PART_SIZE}
+part --ondisk ${MMC_BLOCK_DEVICE} --source bootimg-partition --fstype=vfat --fixed-size ${WIC_KERNELIMG_PART_SIZE} ${WIC_FIRST_PARTITION_OFFSET} --label boot_recov 
+part --ondisk ${MMC_BLOCK_DEVICE} --source rootfs --rootfs-dir ${RECOVERY_IMAGE_NAME} --fstype=squashfs --fixed-size ${WIC_RECOVERY_ROOTFS_PART_SIZE}
 
 # System (incl. update capability)
-part --ondisk ${MMC_BLOCK_DEVICE} --source bootimg-partition                  --fstype=vfat     --fixed-size ${WIC_KERNELIMG_PART_SIZE}                               --label boot_system 
-part --ondisk ${MMC_BLOCK_DEVICE} --source rootfs --rootfs-dir system-image   --fstype=ext4     --fixed-size ${WIC_SYSTEM_ROOTFS_PART_SIZE}                           --label rootfs
+part --ondisk ${MMC_BLOCK_DEVICE} --source bootimg-partition --fstype=vfat --fixed-size ${WIC_KERNELIMG_PART_SIZE} --label boot_system 
+part --ondisk ${MMC_BLOCK_DEVICE} --source rootfs --rootfs-dir ${SYSTEM_IMAGE_NAME} --fstype=ext4 --fixed-size ${WIC_SYSTEM_ROOTFS_PART_SIZE} --label rootfs
 
 # Persistent data partition (automatically expanding to fill the rest of the disk)
-part --ondisk ${MMC_BLOCK_DEVICE}                                             --fstype=ext4     --size ${WIC_APPFS_MIN_PART_SIZE} --fsoptions "x-systemd.growfs"      --label appfs 
+part --ondisk ${MMC_BLOCK_DEVICE} --fstype=ext4 --size ${WIC_APPFS_MIN_PART_SIZE} --fsoptions "x-systemd.growfs" --label appfs 
 
 # Configuration
 bootloader ${WIC_TARGET_BOOTLOADER_CONFIG}

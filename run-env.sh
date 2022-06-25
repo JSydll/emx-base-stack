@@ -78,4 +78,8 @@ export BB_ENV_EXTRAWHITE="${BB_ENV_EXTRAWHITE} \
   STORAGE_TYPE \
   MMC_BLOCK_DEVICE \
 "
+
+# Extend whitelist with variables from meta-common-configs
+. ./sources/meta-common-configs/scripts/whitelisting.sh
+
 ./environment/init.sh --env-file "${SCRIPT_DIR}/.env" "${POSITIONAL_ARGS[@]}"

@@ -1,8 +1,8 @@
 # -------------------------------------------------------------------
-# Full multiboot system image
+# Recovery only image
 # -------------------------------------------------------------------
-SUMMARY = "An image with a complete partitioning and multiboot support."
+SUMMARY = "A custom recovery image with tooling support."
 
 LICENSE = "MIT"
 
-inherit full-image
+inherit custom-recovery-image
