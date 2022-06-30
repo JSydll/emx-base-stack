@@ -1,1 +1,0 @@
-part / --source rootfs --rootfs-dir ${IMAGE_ROOTFS} --ondisk mmcblk --fstype=squashfs

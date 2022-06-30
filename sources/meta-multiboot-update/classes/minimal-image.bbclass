@@ -12,6 +12,7 @@ IMAGE_INSTALL += " \
     iproute2 \
     man \
     nano \
+    rauc \
     rsync \
     screen \
     \

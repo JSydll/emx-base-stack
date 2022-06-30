@@ -1,4 +1,4 @@
-# Integration
+# Board integration
 
 Some integration activities such as the definition of overlays and creation
 of base files can be generalized while others are highly target specific.

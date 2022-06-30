@@ -1,8 +1,8 @@
 # Environment variables expected by RAUC
 # See https://rauc.readthedocs.io/en/latest/integration.html#set-up-u-boot-boot-script-for-rauc
-test -n "${BOOT_ORDER}" || setenv BOOT_ORDER "SYS RECOV"
-test -n "${BOOT_SYS_LEFT}" || setenv BOOT_SYS_LEFT 3
-test -n "${BOOT_RECOV_LEFT}" || setenv BOOT_RECOV_LEFT 3
+test -n "${BOOT_ORDER}" || setenv BOOT_ORDER "system recovery"
+test -n "${BOOT_system_LEFT}" || setenv BOOT_system_LEFT 3
+test -n "${BOOT_recovery_LEFT}" || setenv BOOT_recovery_LEFT 3
 
 # Partition scheme as defined in meta-multiboot-update/wic/mmc-multiboot.wks.in
 setenv mmc_device "@@MMC_BLOCK_DEVICE_NUM@@"
@@ -19,32 +19,32 @@ for slot in "${BOOT_ORDER}"; do
   if test "x${rauc_slot}" != "x"; then
     # rauc_slot already found, performing no-op
     echo "[DEBUG] Skipping ${slot} slot..."
-  elif test "x${slot}" = "xRECOV"; then
-    if test ${BOOT_RECOV_LEFT} -gt 0; then
-      setexpr BOOT_RECOV_LEFT ${BOOT_RECOV_LEFT} - 1
+  elif test "x${slot}" = "xrecovery"; then
+    if test ${BOOT_recovery_LEFT} -gt 0; then
+      setexpr BOOT_recovery_LEFT ${BOOT_recovery_LEFT} - 1
       setenv kernel_partition "2"
       setenv rootfs_partition "3"
       setenv rootfs_type "squashfs"
-      setenv rauc_slot "RECOV"
-      echo "[INFO] Selected RECOVERY slot (kernel in p2, rootfs in p3)!"
+      setenv rauc_slot "recovery"
+      echo "[INFO] Selected recovery slot (kernel in p2, rootfs in p3)!"
     fi
-  elif test "x${slot}" = "xSYS"; then
-    if test ${BOOT_SYS_LEFT} -gt 0; then
-      setexpr BOOT_SYS_LEFT ${BOOT_SYS_LEFT} - 1
+  elif test "x${slot}" = "xsystem"; then
+    if test ${BOOT_system_LEFT} -gt 0; then
+      setexpr BOOT_system_LEFT ${BOOT_system_LEFT} - 1
       # Account for the msdos extended partition (p4)
       setenv kernel_partition "5"
       setenv rootfs_partition "6"
       setenv rootfs_type "ext4"
-      setenv rauc_slot "SYS"
-      echo "[INFO] Selected SYSTEM slot (kernel in p5, rootfs in p6)!"
+      setenv rauc_slot "system"
+      echo "[INFO] Selected system slot (kernel in p5, rootfs in p6)!"
     fi
   fi
 done
 
 if test "x${rauc_slot}" = "x"; then
   echo "[ERROR] No valid slot found! Resetting tries to 3 and exiting script..."
-  setenv BOOT_SYS_LEFT 3
-  setenv BOOT_RECOV_LEFT 3
+  setenv BOOT_system_LEFT 3
+  setenv BOOT_recovery_LEFT 3
   saveenv
   exit
 fi

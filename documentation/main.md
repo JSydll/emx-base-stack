@@ -1,6 +1,7 @@
 # Documentation
 
-In this documentation, some of the main concepts of an updateable Linux system are described and/or useful resources are linked.
+In this documentation, some of the main concepts of an updateable Linux system are described
+and useful resources are linked.
 
 ## Contents
 
@@ -10,7 +11,8 @@ In this documentation, some of the main concepts of an updateable Linux system a
 
 - **Software Update & Multiboot**:
   - [Concepts](./software-update/01-concepts.md)
-  - [Integration approach](./software-update/02-integration.md)
+  - [Board integration](./software-update/02-integration.md)
+  - [Software update bundles](./software-update/03-bundles.md)
 
 - **Board integrations for Software Update & Multiboot**
   - [Raspberry Pi](./board-integrations/01-raspberrypi.md)

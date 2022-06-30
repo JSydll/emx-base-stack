@@ -29,14 +29,16 @@ function print_features()
 
 The reference implementation currently supports the following boards:
 
-  - raspberrypi3     - Includes: Multiboot, update.
+  - raspberrypi3            - Includes: Multiboot, update.
 
 For these, the following images can be built:
 
-  - full-image
-  - recovery-image
-  - system-image
-  - update-bundle
+  - full-image              - Builds the full image (including recovery & system) with the configured sub-images.
+  - system-update-bundle    - Builds a system update bundle with the configured sub-image.
+  - recovery-update-bundle  - Builds a recovery update bundle with the configured sub-image.
+
+  - custom-recovery-image   - Builds the recovery image only, with custom applications included.
+  - custom-system-image     - Builds the system image only, with custom applications included.
 
 EOF
 }

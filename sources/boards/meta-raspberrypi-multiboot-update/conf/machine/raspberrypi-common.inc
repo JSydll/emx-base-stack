@@ -37,3 +37,6 @@ IMAGE_INSTALL_append = " \
     linux-firmware-bcm43430 \
     i2c-tools \
 "
+
+# Rotate the display for use with 7' LCD
+DISPLAY_ROTATE = "2"

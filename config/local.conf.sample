@@ -11,16 +11,20 @@ CONF_VERSION = "1"
 # -------------------------------------
 # Device / distro infos
 # -------------------------------------
-hostname_pn-base-files = "updatable-pi"
+PRODUCT_NAME = "updatable-pi"
+PRODUCT_VERSION = "0.1.0"
+
+hostname_pn-base-files = "${PRODUCT_NAME}"
 DISTRO_NAME_pn-base-files = "emx-base"
-DISTRO_VERSION_pn-base-files = "0.1.0"
+DISTRO_VERSION_pn-base-files = "${PRODUCT_VERSION}"
 
 #--------------------------------------
 # Distro & image features 
 #--------------------------------------
 
-EXTRA_IMAGE_FEATURES = "debug-tweaks ssh-server-openssh "
+# Note: debug-tweaks are not enabled so a ROOT_PWD shall be set!
 CORE_IMAGE_EXTRA_INSTALL = ""
+DISTRO_FEATURES += "rauc"
 
 # Make the image more lightweight by removing unneeded features
 DISTRO_FEATURES_remove = "3g"
