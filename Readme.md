@@ -1,12 +1,18 @@
-# Reference implementation for embedded Linux systems
+# Embedded Linux Base Stack
 
 This repository aims to provide a reference implementation for updateable, secure embedded Linux systems
 that are built with the Yocto build system.
 
+[![Project Status: WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://github.com/JSydll/emx-base-stack)
+
 **Current features**:
 
 - Basic stack structure
-- Dual boot (recovery/system update schema) _[for RaspberryPi 3]_
+- Dual boot (recovery/system update schema)
+- Bootcounter support
+- Creation of update bundles
+- Authentication of updates via certificates
+- Some common configurations (like root password, ssh config, etc)
 
 **Planned features**:
 
@@ -14,9 +20,7 @@ that are built with the Yocto build system.
   - from media device (USB)
   - via network download (ssh)
   - over-the-air (using `hawkbit` as remote backend)
-- Bootcounter support
 - Application watchdog to determine system health
-- Authentication of updates via certificates
 - Support for update bundle encryption
 - Support for sub-device updates via custom hook scripts
 
@@ -67,3 +71,8 @@ For example, execute `run-env.sh "MACHINE=raspberrypi3 BSP_LAYER=meta-raspberryp
 
 The environment also allows you to expose additional variables to the bitbake environment using the standard Yocto way, 
 via `BB_ENV_EXTRAWHITE="MYVAR1 MYVAR2"`.
+
+
+## Contribution
+
+Feel free to contact me in case you have feature proposals or want to contribute.
