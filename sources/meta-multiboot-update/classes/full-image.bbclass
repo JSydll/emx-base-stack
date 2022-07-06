@@ -17,6 +17,8 @@ inherit image
 RECOVERY_IMAGE_NAME ?= "recovery-image"
 SYSTEM_IMAGE_NAME ?= "system-image"
 
+require board-definitions/${MACHINE}.inc
+
 WKS_FILE = "${STORAGE_TYPE}-multiboot.wks.in"
 IMAGE_FSTYPES = "wic wic.bz2"
 
@@ -30,5 +32,3 @@ do_rootfs[depends] += "\
     ${RECOVERY_IMAGE_NAME}:do_image_complete \
     ${SYSTEM_IMAGE_NAME}:do_image_complete \
 "
-
-require board-definitions/${MACHINE}.inc

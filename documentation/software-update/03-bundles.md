@@ -25,3 +25,9 @@ As `wic` creates images that already contain all relevant data such as kernel-pa
 contents and rootfs in a partitioned image, an approach can be to fetch the respective artifacts
 from that partitioned image. This is what the `deploy-single-slot-partitions.bbclass` in the
 `meta-multiboot-update` layer does - given the expected partition scheme in `single-slot.wks`.
+
+## Bundles and slot types
+
+Each bundles contains artifacts for one or more slots, which are defined in the `/etc/rauc/system.conf`.
+As documented [here](https://rauc.readthedocs.io/en/latest/integration.html#slot-type), RAUC checks the
+unpacked artifact's _file extensions_ to determine, how they should be installed to the specific slot.

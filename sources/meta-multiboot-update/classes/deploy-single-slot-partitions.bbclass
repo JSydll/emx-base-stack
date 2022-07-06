@@ -19,13 +19,13 @@ do_copy_wic_partitions() {
     image_base="${image_link_base}-${DATETIME}"
     
     boot_part="${wic_workdir}/*.direct.p1"
-    boot_part_ext="wic.boot.part"
+    boot_part_ext="wic.boot.${RAUC_SLOT_BOOT_TYPE}"
 
     cp -v ${boot_part} ${IMGDEPLOYDIR}/${image_base}.${boot_part_ext}
     ln -svf ${image_base}.${boot_part_ext} "${IMGDEPLOYDIR}/${image_link_base}.${boot_part_ext}"
 
     rootfs_part="${wic_workdir}/*.direct.p2"
-    rootfs_part_ext="wic.rootfs.part"
+    rootfs_part_ext="wic.rootfs.${RAUC_SLOT_ROOTFS_TYPE}"
 
     cp -v ${rootfs_part} ${IMGDEPLOYDIR}/${image_base}.${rootfs_part_ext}
     ln -svf ${image_base}.${rootfs_part_ext} "${IMGDEPLOYDIR}/${image_link_base}.${rootfs_part_ext}"
