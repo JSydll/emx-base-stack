@@ -13,8 +13,15 @@ FILES_${PN} += "\
 "
 
 do_install() {
-    install -d ${D}/${localstatedir}/app
+    # Mount-point for the persistent data partition
+    install -d ${D}/${localstatedir}/persistent
+
+    # Project specific data directories
+    install -d ${D}/${localstatedir}/data
+    install -d ${D}/${localstatedir}/media
+
     install -d ${D}/${systemd_unitdir}/system
     install -m 644 ${WORKDIR}/systemd/overlay-setup.service ${D}/${systemd_unitdir}/system/
+    
     install -d ${D}/${sbindir}
 }

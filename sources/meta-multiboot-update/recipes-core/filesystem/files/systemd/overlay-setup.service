@@ -2,7 +2,7 @@
 Description=Setup directory structure for overlay to guarantee the mounts needed in fstab
 DefaultDependencies=no
 Before=local-fs.target
-RequiresMountsFor=/var/app
+RequiresMountsFor=/var/persistent
 
 [Service]
 Type=oneshot
