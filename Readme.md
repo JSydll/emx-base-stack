@@ -25,6 +25,54 @@ that are built with the Yocto build system.
 - Support for sub-device updates via custom hook scripts
 
 
+## Getting started
+
+To have something ready to install on one of the supported boards, you need to
+
+**(1)** Pull the repository and checkout all submodules with
+
+```bash
+git clone https://github.com/JSydll/emx-base-stack
+git submodule update --init --recursive
+```
+
+**(2)** Install the minimal host system requirements (see below).
+
+**(3)** Configure the project as desired (by setting up a `.env` file, see below).
+
+**(4)** Start the dockerized build environment by running
+
+```bash
+./run-env.sh --rebuild
+```
+
+_The `--rebuild` option is only required on first run as it creates the Docker_
+_image used for build containers._
+
+**(5)** Build the target image with 
+
+```bash
+bitbake full-image
+```
+
+**(6)** Locate the `*.wic` image file under `build/tmp/deploy/<machine>/` and flash it
+on the device/ memory card using a tool like `Etcher`. 
+
+
+### Host system requirements
+
+The host system requirements are reduced as much as possibe, yet there are
+some:
+
+- `git` _(well, who doesn't need it...)_
+- `bash`
+- `Docker` (and possibly other build environment requirements, see [here](./environment/Readme.md))
+
+For development, it is recommended to also install (and use!)
+
+- `shellcheck`
+
+
 ## Branching strategy
 
 The branches in this repo are aligned with the Yocto project releases.
@@ -76,3 +124,11 @@ via `BB_ENV_EXTRAWHITE="MYVAR1 MYVAR2"`.
 ## Contribution
 
 Feel free to contact me in case you have feature proposals or want to contribute.
+
+### Common development pitfalls
+
+**Setting up the build environment fails**
+
+If you develop on a different branch than one of the main branches (and use `/` in your branch name),
+rebuilding the Docker environment will fail unless you specify the `RELEASE_TAG` environment variable
+before building.
