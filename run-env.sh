@@ -5,7 +5,8 @@
 # Initializes and enters/runs a command in the Yocto build environment.
 #
 # ------------------
-readonly SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+readonly SCRIPT_DIR
 
 function print_help()
 {
@@ -82,6 +83,7 @@ export BB_ENV_EXTRAWHITE="${BB_ENV_EXTRAWHITE} \
 "
 
 # Extend whitelist with variables from meta-common-configs
+# shellcheck disable=SC1091
 . ./sources/meta-common-configs/scripts/whitelisting.sh
 
 ./environment/init.sh --env-file "${SCRIPT_DIR}/.env" "${POSITIONAL_ARGS[@]}"
