@@ -7,6 +7,9 @@ LICENSE = "MIT"
 
 inherit core-image
 
+# Include information about the build in the image
+inherit image-buildinfo
+
 IMAGE_INSTALL += " \
     bash \
     iproute2 \
