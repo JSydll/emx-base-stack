@@ -1,4 +1,3 @@
-inherit recovery-image
 inherit set-root-pwd
 
 IMAGE_INSTALL += " \
