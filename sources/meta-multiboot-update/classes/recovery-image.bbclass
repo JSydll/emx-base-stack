@@ -21,3 +21,14 @@ IMAGE_INSTALL += " \
 "
 
 IMAGE_FSTYPES = "${IMAGE_ROOTFS_FSTYPE} wic.bz2"
+
+# --------------
+# Postprocessing
+# --------------
+
+postprocess_recovery_image() {
+    # Mark the distro as recovery
+    sed -i 's/\b [0-9]\b/ (recovery)&/' ${IMAGE_ROOTFS}${sysconfdir}/issue
+}
+
+ROOTFS_POSTPROCESS_COMMAND += "postprocess_recovery_image; "
