@@ -22,6 +22,8 @@ IMAGE_INSTALL += " \
     openssh \
     openssl \
     openssl-bin \
+    \
+    sw-mode-control \
 "
 
 IMAGE_FEATURES += "\
