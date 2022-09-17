@@ -22,7 +22,7 @@
 	path = sources/boards/meta-raspberrypi
 	url = https://git.yoctoproject.org/git/meta-raspberrypi
 	branch = dunfell
-[submodule "sources/meta-common-configs"]
-	path = sources/meta-common-configs
-	url = https://github.com/JSydll/meta-common-configs
+[submodule "sources/meta-common-emx"]
+	path = sources/meta-common-emx
+	url = https://github.com/JSydll/meta-common-emx
 	branch = dunfell
