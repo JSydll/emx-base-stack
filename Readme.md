@@ -121,6 +121,32 @@ The environment also allows you to expose additional variables to the bitbake en
 via `BB_ENV_EXTRAWHITE="MYVAR1 MYVAR2"`.
 
 
+## Deploying build artifacts
+
+There are two types of build artifacts: _full system images_ and _update bundles_.
+
+**Full system images** contain a fully partitioned representation of the system to be installed
+on the main memory (e.g. the eMMC).
+Depending on the hardware, this might require specific tools provided by the board manufacturer.
+In the case of popular single-board-computers like the RaspberryPi, the external SD card needs
+to be flashed with the image - which is most easily done with a tool like
+[Etcher](https://www.balena.io/etcher/).
+
+As soon as the device is initially flashed with the expected partitioning and software,
+**update bundles** can be installed by bringing them on the device and simply running
+
+```bash
+sw-mode-control update /path/to/update-bundle.raucb
+```
+
+Of course, this will only work for bundles to update the currently inactive software mode
+(i.e. the `system` mode needs to be running to update the `recovery` software and vice versa).
+To switch modes, you can use
+
+```bash
+sw-mode-control start-system|start-recovery
+```
+
 ## Contribution
 
 Feel free to contact me in case you have feature proposals or want to contribute.
