@@ -3,6 +3,7 @@
 # Unified interface to manage software modes.
 # -------------------------------------------
 readonly COMMAND="$1"
+shift
 
 print_help() {
     cat <<EOF
@@ -15,6 +16,8 @@ Available commands:
     print-active    - Print the active software mode.
     start-recovery  - Change to recovery mode.
     start-system    - Change to system mode.
+    update          - Install an update bundle (parameter: path to the file).
+    info            - Provide info about an update bundle (parameter: path to the file).
     help            - Print this help.
 EOF
 }
@@ -42,6 +45,12 @@ case "${COMMAND}" in
     start-system)
         rauc status mark-active system.0
         reboot
+        ;;
+    update)
+        rauc install "$1"
+        ;;
+    info)
+        rauc info --detailed "$1"
         ;;
     *)
         echo "[ERROR] Command not supported!"
