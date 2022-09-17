@@ -1,6 +1,5 @@
 SRC_URI += " \
     file://fstab \
-    file://fstab_common \
 "
 
 FILES_${PN} += " \
@@ -17,8 +16,3 @@ do_install() {
 
 # Append storage type specific mounts
 require fstab-${STORAGE_TYPE}.inc
-
-# Append common mounts
-do_install_append() {
-    cat ${WORKDIR}/fstab_common >> ${D}${sysconfdir}/fstab
-}

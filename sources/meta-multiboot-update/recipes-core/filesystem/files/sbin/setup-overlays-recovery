@@ -1,9 +1,7 @@
 #!/bin/bash
-# Setup directory structure for the overlay system to guarantee a mount point
+# Setup directory structure for the overlay recovery to guarantee a mount point
 
-# System 
-mkdir -p /var/persistent/overlay/etc       /var/persistent/overlay/etc-work
-# User and application
-mkdir -p /var/persistent/overlay/var/data  /var/persistent/overlay/var/data-work
+# Recovery 
+mkdir -p /var/persistent/overlay/recovery/etc       /var/persistent/overlay/recovery/etc-work
 # Update
 mkdir -p /var/persistent/media

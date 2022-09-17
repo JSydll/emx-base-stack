@@ -2,9 +2,9 @@
 # Setup directory structure for the overlay system to guarantee a mount point
 
 # System 
-mkdir -p /var/persistent/overlay/etc       /var/persistent/overlay/etc-work
-mkdir -p /var/persistent/overlay/var/lib   /var/persistent/overlay/var/lib-work
+mkdir -p /var/persistent/overlay/system/etc       /var/persistent/overlay/system/etc-work
+mkdir -p /var/persistent/overlay/system/var/lib   /var/persistent/overlay/system/var/lib-work
 # User and application
-mkdir -p /var/persistent/overlay/var/data  /var/persistent/overlay/var/data-work
+mkdir -p /var/persistent/overlay/system/var/data  /var/persistent/overlay/system/var/data-work
 # Update
 mkdir -p /var/persistent/media
