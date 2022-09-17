@@ -1,6 +1,0 @@
-# System overlays
-overlay_etc     /etc        overlay     x-systemd.requires=overlay-setup.service,x-systemd.requires=/var/persistent,rw,relatime,lowerdir=/etc,upperdir=/var/persistent/overlay/etc,workdir=/var/persistent/overlay/etc-work                               0 0
-
-# User and application data
-overlay_data    /var/data   overlay     x-systemd.requires=overlay-setup.service,x-systemd.requires=/var/persistent,rw,relatime,lowerdir=/var/data,upperdir=/var/persistent/overlay/var/data,workdir=/var/persistent/overlay/var/data-work 0 0
-

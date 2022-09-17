@@ -1,7 +1,8 @@
-RDEPENDS_${PN} += "bash"
+RDEPENDS_${PN} += "bash overlay-control"
 
 SRC_URI += " \
     file://systemd/overlay-setup.service \
+    file://usr/bin/factory-reset.sh \
 "
 
 SYSTEMD_SERVICE_${PN} = " \
@@ -24,4 +25,7 @@ do_install() {
     install -m 644 ${WORKDIR}/systemd/overlay-setup.service ${D}/${systemd_unitdir}/system/
     
     install -d ${D}/${sbindir}
+
+    install -d ${D}/${bindir}
+    install -m 644 ${WORKDIR}/usr/bin/factory-reset.sh ${D}/${bindir}/factory-reset
 }
