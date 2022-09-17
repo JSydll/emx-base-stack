@@ -82,8 +82,8 @@ export BB_ENV_EXTRAWHITE="${BB_ENV_EXTRAWHITE} \
   MMC_BLOCK_DEVICE \
 "
 
-# Extend whitelist with variables from meta-common-configs
+# Extend whitelist with variables from meta-common-emx
 # shellcheck disable=SC1091
-. ./sources/meta-common-configs/scripts/whitelisting.sh
+. ./sources/meta-common-emx/scripts/whitelisting.sh
 
 ./environment/init.sh --env-file "${SCRIPT_DIR}/.env" "${POSITIONAL_ARGS[@]}"

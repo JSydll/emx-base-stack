@@ -20,8 +20,8 @@ BBLAYERS = " \
   ##OEROOT##/../openembedded/meta-python \
   ##OEROOT##/../meta-rauc \
   ${BSP_LAYERS} \
+  ##OEROOT##/../meta-common-emx \
   ##OEROOT##/../meta-multiboot-update \
-  ##OEROOT##/../meta-common-configs \
   ##OEROOT##/../meta-custom \
 "
 
