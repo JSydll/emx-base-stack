@@ -1,0 +1,9 @@
+[Unit]
+Description=Initiates the software update.
+
+[Service]
+Type=simple
+ExecStart=/usr/sbin/update-observer
+
+[Install]
+WantedBy=multi-user.target

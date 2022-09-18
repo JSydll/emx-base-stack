@@ -27,5 +27,5 @@ do_install() {
     install -d ${D}/${sbindir}
 
     install -d ${D}/${bindir}
-    install -m 644 ${WORKDIR}/usr/bin/factory-reset.sh ${D}/${bindir}/factory-reset
+    install -m 770 ${WORKDIR}/usr/bin/factory-reset.sh ${D}/${bindir}/factory-reset
 }
