@@ -5,3 +5,6 @@ devpts               /dev/pts           devpts      mode=0620,gid=5             
 tmpfs                /run               tmpfs       mode=0755,nodev,nosuid,strictatime  0  0
 tmpfs                /var/volatile      tmpfs       defaults                            0  0
 
+# Writable media directory
+/var/persistent/media  /media   none    defaults,bind,x-systemd.requires=overlay-setup.service,x-systemd.requires=/var/persistent,sync,nofail 0 0
+

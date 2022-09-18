@@ -24,6 +24,7 @@ IMAGE_INSTALL += " \
     openssl-bin \
     \
     sw-mode-control \
+    update-observer \
 "
 
 IMAGE_FEATURES += "\
