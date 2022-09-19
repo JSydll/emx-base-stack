@@ -1,9 +1,12 @@
 [system]
 compatible={{ product_name }}
-bootloader=uboot
+bootloader={{ bootloader }}
+{{ extra_bootloader_options }}
  
 [keyring]
 path=/etc/rauc/ca.cert.pem
+
+{{ bootloader_slot_conf }}
 
 [slot.recoveryBoot.0]
 device={{ recovery_boot_device }}
@@ -11,7 +14,7 @@ type=vfat
 parent=recovery.0
 
 [slot.recovery.0]
-device={{ recovery_device }}
+device={{ recovery_rootfs_device }}
 type=raw
 bootname=recovery
 
@@ -21,6 +24,6 @@ type=vfat
 parent=system.0
 
 [slot.system.0]
-device={{ system_device }}
+device={{ system_rootfs_device }}
 type=ext4
 bootname=system

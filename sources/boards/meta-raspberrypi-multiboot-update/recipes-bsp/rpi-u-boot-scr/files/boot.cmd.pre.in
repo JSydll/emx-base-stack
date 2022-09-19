@@ -4,7 +4,7 @@ test -n "${BOOT_ORDER}" || setenv BOOT_ORDER "system recovery"
 test -n "${BOOT_system_LEFT}" || setenv BOOT_system_LEFT 3
 test -n "${BOOT_recovery_LEFT}" || setenv BOOT_recovery_LEFT 3
 
-# Partition scheme as defined in meta-multiboot-update/wic/mmc-multiboot.wks.in
+# Partition scheme as defined in meta-multiboot-update/wic/multiboot.wks.in
 setenv mmc_device "@@MMC_BLOCK_DEVICE_NUM@@"
 setenv bootloader_partition "1"
 setenv bootargs_default "@@DEFAULT_BOOTARGS@@"

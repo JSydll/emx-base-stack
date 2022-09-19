@@ -44,6 +44,11 @@ For these, the following images can be built:
 EOF
 }
 
+function rebuild_environment()
+{
+  ./environment/build.sh --env-file "${SCRIPT_DIR}/.env" --base-only
+}
+
 # ----------------------
 # Command line arguments
 # ----------------------
@@ -52,7 +57,7 @@ POSITIONAL_ARGS=()
 while (( $# )); do
   case "$1" in
   --rebuild)
-    REBUILD="yes"
+    rebuild_environment
     ;;
   -h|--help)
     print_help
@@ -69,17 +74,10 @@ done
 # Execution
 # ---------
 
-if [[ "${REBUILD}" == "yes" ]]; then
-  ./environment/build.sh --env-file "${SCRIPT_DIR}/.env" --base-only
-fi
-
 print_features
 
 export BB_ENV_EXTRAWHITE="${BB_ENV_EXTRAWHITE} \
-  BSP_LAYER \
-  BSP_EXTENSION_LAYER \
-  STORAGE_TYPE \
-  MMC_BLOCK_DEVICE \
+  BSP_LAYERS \
 "
 
 # Extend whitelist with variables from meta-common-emx
