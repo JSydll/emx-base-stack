@@ -20,7 +20,7 @@ SYSTEM_IMAGE_NAME ?= "system-image"
 
 require board-definitions/${MACHINE}.inc
 
-WKS_FILE = "${STORAGE_TYPE}-multiboot.wks.in"
+WKS_FILE = "multiboot.wks.in"
 IMAGE_FSTYPES = "wic wic.bz2"
 
 DEPENDS += " \
@@ -38,6 +38,8 @@ do_rootfs[depends] += "\
 # Deployment of artifacts to be used in update bundles
 # ----------------------------------------------------
 
+inherit export-multiboot-properties
+
 do_copy_wic_partitions() {
     wic_workdir="${WORKDIR}/build-wic"
     image_link_base="${PN}-${MACHINE}"
@@ -46,22 +48,20 @@ do_copy_wic_partitions() {
     bbnote "Copying partitions from '${wic_workdir}' to IMGDEPLOYDIR..."
     
     ext="wic.recovery.boot.vfat"
-    cp -v ${wic_workdir}/*.direct.p2 ${IMGDEPLOYDIR}/${image_base}.${ext}
-    ln -svf ${image_base}.${ext} "${IMGDEPLOYDIR}/${image_link_base}.${ext}"
+    cp -v "${wic_workdir}"/*.direct.p"${RECOVERY_BOOT_PART}" "${IMGDEPLOYDIR}"/"${image_base}.${ext}"
+    ln -svf "${image_base}.${ext}" "${IMGDEPLOYDIR}"/"${image_link_base}.${ext}"
 
     ext="wic.recovery.rootfs.img"
-    cp -v ${wic_workdir}/*.direct.p3 ${IMGDEPLOYDIR}/${image_base}.${ext}
-    ln -svf ${image_base}.${ext} "${IMGDEPLOYDIR}/${image_link_base}.${ext}"
+    cp -v "${wic_workdir}"/*.direct.p"${RECOVERY_ROOTFS_PART}" "${IMGDEPLOYDIR}"/"${image_base}.${ext}"
+    ln -svf "${image_base}.${ext}" "${IMGDEPLOYDIR}"/"${image_link_base}.${ext}"
 
     ext="wic.system.boot.vfat"
-    [ "${PTABLE_TYPE}" == "msdos" ] && part_num=5 || part_num=4
-    cp -v ${wic_workdir}/*.direct.p${part_num} ${IMGDEPLOYDIR}/${image_base}.${ext}
-    ln -svf ${image_base}.${ext} "${IMGDEPLOYDIR}/${image_link_base}.${ext}"
+    cp -v "${wic_workdir}"/*.direct.p"${SYSTEM_BOOT_PART}" "${IMGDEPLOYDIR}"/"${image_base}.${ext}"
+    ln -svf "${image_base}.${ext}" "${IMGDEPLOYDIR}"/"${image_link_base}.${ext}"
 
     ext="wic.system.rootfs.ext4"
-    [ "${PTABLE_TYPE}" == "msdos" ] && part_num=6 || part_num=5
-    cp -v ${wic_workdir}/*.direct.p${part_num} ${IMGDEPLOYDIR}/${image_base}.${ext}
-    ln -svf ${image_base}.${ext} "${IMGDEPLOYDIR}/${image_link_base}.${ext}"
+    cp -v "${wic_workdir}"/*.direct.p"${SYSTEM_ROOTFS_PART}" "${IMGDEPLOYDIR}"/"${image_base}.${ext}"
+    ln -svf "${image_base}.${ext}" "${IMGDEPLOYDIR}"/"${image_link_base}.${ext}"
 }
 do_copy_wic_partitions[vardepsexclude] += "DATETIME"
 

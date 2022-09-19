@@ -1,0 +1,23 @@
+# ------------------------------------
+# Multiboot layout (system + recovery)
+# ------------------------------------
+
+# Configuration
+bootloader ${WIC_BOOTLOADER_CONFIG}
+
+# Bootloader Integration
+# The target implementation must provide specific artifacts and fstypes
+part --ondisk ${WIC_DEVICE} ${WIC_BOOTLOADER_PART_CMD}
+${WIC_BOOTLOADER_EXTRA_PART_CMD}
+
+# Recovery
+# The target implementation must provide the necessary IMAGE_BOOT_FILES 
+part --ondisk ${WIC_DEVICE} ${WIC_KERNELIMG_SOURCE} --fstype=vfat --fixed-size ${WIC_KERNELIMG_PART_SIZE} ${WIC_FIRST_PARTITION_OFFSET} --label boot_recov 
+part --ondisk ${WIC_DEVICE} ${WIC_RECOVERY_ROOTFS_SOURCE} --fstype=squashfs --fixed-size ${WIC_RECOVERY_ROOTFS_PART_SIZE}
+
+# System (incl. update capability)
+part --ondisk ${WIC_DEVICE} ${WIC_KERNELIMG_SOURCE} --fstype=vfat --fixed-size ${WIC_KERNELIMG_PART_SIZE} --label boot_system 
+part --ondisk ${WIC_DEVICE} ${WIC_SYSTEM_ROOTFS_SOURCE} --fstype=ext4 --fixed-size ${WIC_SYSTEM_ROOTFS_PART_SIZE} --label rootfs
+
+# Persistent data partition (automatically expanding to fill the rest of the disk)
+part --ondisk ${WIC_DEVICE} --fstype=ext4 --size ${WIC_APPFS_MIN_PART_SIZE} --fsoptions "x-systemd.growfs" --label appfs 

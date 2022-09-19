@@ -13,14 +13,16 @@ that are built with the Yocto build system.
 - Creation of update bundles
 - Authentication of updates via certificates
 - Some common configurations (like root password, ssh config, etc)
+- Lightweight factory reset (through overlay clearance)
 
 **Planned features**:
 
-- Differential updates (using `casync`) over various sources
+- Updates over various sources
   - from media device (USB)
   - via network download (ssh)
   - over-the-air (using `hawkbit` as remote backend)
 - Application watchdog to determine system health
+- Differential updates (using `casync`)
 - Support for update bundle encryption
 - Support for sub-device updates via custom hook scripts
 
@@ -88,6 +90,7 @@ used development boards, such as the Raspberry Pi.
 
 Currently supported boards:
 
+- Qemu x86 _[MACHINE=qemu86]_
 - RaspberryPi 3 B+ _[MACHINE=raspberrypi3]_
 
 
@@ -102,10 +105,7 @@ For a correct configuration however, the `local.conf` must contain the `include 
 Further required configuration parameters:
 ```
 MACHINE               | Machine to build for.
-BSP_LAYER             | Layer containing the machine configuration and BSP packages.
-BSP_EXTENSION_LAYER   | Layer containing extension necessary to support multiboot update on the given BSP
-STORAGE_TYPE          | Type of persistent storage (available options: [mmc], default: 'mmc').
-MMC_BLOCK_DEVICE      | Allows specification of a custom eMMC block device (default: '/dev/mmcblk0') - only evaluated if STORAGE_TYPE is 'mmc'.
+BSP_LAYERS            | Layers containing the machine configuration and BSP packages (must be absolute paths, separated by colon).
 ```
 
 See `.env.example` for a reference of the syntax.

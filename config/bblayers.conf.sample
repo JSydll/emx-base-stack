@@ -2,26 +2,21 @@
 LCONF_VERSION = "7"
 
 BBPATH = "${TOPDIR}"
-
 BBFILES ?= ""
 
-BSP_LAYERS = " \
-  ##OEROOT##/../boards/${BSP_LAYER} \
-  ##OEROOT##/../boards/${BSP_EXTENSION_LAYER} \
-"
+SOURCES = "${@ os.path.abspath(os.path.join("${TOPDIR}", os.pardir)) }/sources"
 
 BBLAYERS = " \
-  ##OEROOT##/../poky/meta \
-  ##OEROOT##/../poky/meta-poky \
-  ##OEROOT##/../meta-poky-extensions \
-  ##OEROOT##/../openembedded/meta-oe \
-  ##OEROOT##/../openembedded/meta-multimedia \
-  ##OEROOT##/../openembedded/meta-networking \
-  ##OEROOT##/../openembedded/meta-python \
-  ##OEROOT##/../meta-rauc \
-  ${BSP_LAYERS} \
-  ##OEROOT##/../meta-common-emx \
-  ##OEROOT##/../meta-multiboot-update \
-  ##OEROOT##/../meta-custom \
+  ${SOURCES}/poky/meta \
+  ${SOURCES}/poky/meta-poky \
+  ${SOURCES}/meta-poky-extensions \
+  ${SOURCES}/openembedded/meta-oe \
+  ${SOURCES}/openembedded/meta-multimedia \
+  ${SOURCES}/openembedded/meta-networking \
+  ${SOURCES}/openembedded/meta-python \
+  ${@ d.getVar("BSP_LAYERS").replace(',', ' ') } \
+  ${SOURCES}/meta-rauc \
+  ${SOURCES}/meta-common-emx \
+  ${SOURCES}/meta-multiboot-update \
+  ${SOURCES}/meta-custom \
 "
-

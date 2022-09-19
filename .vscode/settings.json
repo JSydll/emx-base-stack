@@ -1,0 +1,6 @@
+{
+    "files.exclude": {
+        "**/build/tmp/*": true,
+        "**/.git": true
+    }
+}

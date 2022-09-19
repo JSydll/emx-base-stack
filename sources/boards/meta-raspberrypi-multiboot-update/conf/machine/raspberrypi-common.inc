@@ -8,10 +8,12 @@ VIRTUAL-RUNTIME_init_manager = "systemd"
 DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
 VIRTUAL-RUNTIME_initscripts = ""
 
-# Partition table properties
+# Memory and partition table properties
+STORAGE_TYPE="mmc"
+MMC_BLOCK_DEVICE="mmcblk0"
 PTABLE_TYPE = "msdos"
 
-# u-boot settings
+# Bootloader settings
 RPI_USE_U_BOOT = "1"
 PREFERRED_PROVIDER_virtual/bootloader = "u-boot"
 PREFERRED_RPROVIDER_u-boot-default-env = "libubootenv"
