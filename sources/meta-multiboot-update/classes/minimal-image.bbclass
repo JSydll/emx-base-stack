@@ -29,3 +29,9 @@ IMAGE_INSTALL += " \
 IMAGE_FEATURES += "\
     ssh-server-openssh \
 "
+
+# Enable this image / derived images to be referenced in wic images.
+# ------------------------------------------------------------------
+# Note: do_rootfs_wicenv creates the .env file containing meta information
+# about the image, read by wic before processing .wks files.
+addtask rootfs_wicenv after do_image before do_image_complete

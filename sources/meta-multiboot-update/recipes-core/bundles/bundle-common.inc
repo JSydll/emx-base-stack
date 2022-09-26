@@ -1,3 +1,7 @@
+# Dependency to the full system image which provides individual slot artifacts
+RAUC_ARTIFACT_SOURCE = "full-image"
+DEPENDS += "${RAUC_ARTIFACT_SOURCE}"
+
 # Common bundle meta information
 RAUC_BUNDLE_COMPATIBLE = "${PRODUCT_NAME}"
 RAUC_BUNDLE_VERSION = "${PRODUCT_VERSION}"

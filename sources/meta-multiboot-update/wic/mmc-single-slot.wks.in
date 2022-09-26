@@ -1,5 +1,0 @@
-# ------------------------------------
-# Single slot layout (used to populate update bundles with)
-# ------------------------------------
-part    --ondisk ${MMC_BLOCK_DEVICE} --source bootimg-partition --fstype=vfat
-part /  --ondisk ${MMC_BLOCK_DEVICE} --source rootfs --rootfs-dir ${IMAGE_ROOTFS} --fstype=${IMAGE_ROOTFS_FSTYPE}
