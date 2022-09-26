@@ -6,18 +6,16 @@ SUMMARY = "Recovery software update bundle."
 LICENSE = "MIT"
 
 inherit bundle
+require bundle-common.inc
 
-DEPENDS += "${RECOVERY_IMAGE_NAME}"
-
-require bundle-meta-info.inc
-
-RAUC_BUNDLE_DESCRIPTION = "Recovery update Bundle for the ${PRODUCT_NAME}"
+RAUC_BUNDLE_DESCRIPTION = "Recovery update bundle for the ${PRODUCT_NAME}"
 
 RAUC_BUNDLE_SLOTS ?= "recoveryBoot recovery"
-RAUC_SLOT_recoveryBoot ?= "${RECOVERY_IMAGE_NAME}"
-RAUC_SLOT_recoveryBoot[type] = "image"
-RAUC_SLOT_recoveryBoot[fstype] = "wic.boot.vfat"
 
-RAUC_SLOT_recovery ?= "${RECOVERY_IMAGE_NAME}"
+RAUC_SLOT_recoveryBoot ?= "${RAUC_ARTIFACT_SOURCE}"
+RAUC_SLOT_recoveryBoot[type] = "image"
+RAUC_SLOT_recoveryBoot[fstype] = "wic.recovery.boot.vfat"
+
+RAUC_SLOT_recovery ?= "${RAUC_ARTIFACT_SOURCE}"
 RAUC_SLOT_recovery[type] = "image"
-RAUC_SLOT_recovery[fstype] = "wic.rootfs.img"
+RAUC_SLOT_recovery[fstype] = "wic.recovery.rootfs.img"

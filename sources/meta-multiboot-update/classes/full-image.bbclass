@@ -13,6 +13,7 @@ IMAGE_INSTALL = ""
 PACKAGE_INSTALL = ""
 
 inherit image
+inherit logging
 
 RECOVERY_IMAGE_NAME ?= "recovery-image"
 SYSTEM_IMAGE_NAME ?= "system-image"
@@ -32,3 +33,36 @@ do_rootfs[depends] += "\
     ${RECOVERY_IMAGE_NAME}:do_image_complete \
     ${SYSTEM_IMAGE_NAME}:do_image_complete \
 "
+
+# ----------------------------------------------------
+# Deployment of artifacts to be used in update bundles
+# ----------------------------------------------------
+
+do_copy_wic_partitions() {
+    wic_workdir="${WORKDIR}/build-wic"
+    image_link_base="${PN}-${MACHINE}"
+    image_base="${image_link_base}-${DATETIME}"
+
+    bbnote "Copying partitions from '${wic_workdir}' to IMGDEPLOYDIR..."
+    
+    ext="wic.recovery.boot.vfat"
+    cp -v ${wic_workdir}/*.direct.p2 ${IMGDEPLOYDIR}/${image_base}.${ext}
+    ln -svf ${image_base}.${ext} "${IMGDEPLOYDIR}/${image_link_base}.${ext}"
+
+    ext="wic.recovery.rootfs.img"
+    cp -v ${wic_workdir}/*.direct.p3 ${IMGDEPLOYDIR}/${image_base}.${ext}
+    ln -svf ${image_base}.${ext} "${IMGDEPLOYDIR}/${image_link_base}.${ext}"
+
+    ext="wic.system.boot.vfat"
+    [ "${PTABLE_TYPE}" == "msdos" ] && part_num=5 || part_num=4
+    cp -v ${wic_workdir}/*.direct.p${part_num} ${IMGDEPLOYDIR}/${image_base}.${ext}
+    ln -svf ${image_base}.${ext} "${IMGDEPLOYDIR}/${image_link_base}.${ext}"
+
+    ext="wic.system.rootfs.ext4"
+    [ "${PTABLE_TYPE}" == "msdos" ] && part_num=6 || part_num=5
+    cp -v ${wic_workdir}/*.direct.p${part_num} ${IMGDEPLOYDIR}/${image_base}.${ext}
+    ln -svf ${image_base}.${ext} "${IMGDEPLOYDIR}/${image_link_base}.${ext}"
+}
+do_copy_wic_partitions[vardepsexclude] += "DATETIME"
+
+addtask copy_wic_partitions after do_image_wic before do_image_complete
