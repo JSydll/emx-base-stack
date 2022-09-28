@@ -18,8 +18,8 @@
 	path = sources/meta-rauc
 	url = https://github.com/rauc/meta-rauc.git
 	branch = dunfell
-[submodule "sources/boards/meta-raspberrypi"]
-	path = sources/boards/meta-raspberrypi
+[submodule "sources/boards/raspberrypi/meta-raspberrypi"]
+	path = sources/boards/raspberrypi/meta-raspberrypi
 	url = https://git.yoctoproject.org/git/meta-raspberrypi
 	branch = dunfell
 [submodule "sources/meta-common-emx"]
