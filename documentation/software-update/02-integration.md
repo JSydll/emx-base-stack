@@ -13,6 +13,7 @@ layer, which in turn is based on the `meta-raspberrypi-multiboot-update` layer.
 Hardware boards with multiboot integration:
 
 - [RaspberryPi 3](./../board-integrations/01-raspberrypi.md)
+- [QEMU](./../board-integrations/02-qemu.md)
 
 
 ## Bootloader integrations

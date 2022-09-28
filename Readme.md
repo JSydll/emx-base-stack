@@ -90,8 +90,15 @@ used development boards, such as the Raspberry Pi.
 
 Currently supported boards:
 
-- Qemu x86 _[MACHINE=qemu86]_
 - RaspberryPi 3 B+ _[MACHINE=raspberrypi3]_
+- QEMU _[MACHINE=qemux86-64]_
+
+For using QEMU, simply build the `full-image` (see below) and run the emulator with
+
+```bash
+./run-env.sh
+runqemu full-image wic nographic ovmf slirp
+```
 
 
 ## Configuring the project
@@ -116,6 +123,8 @@ See `.env.example` for a reference of the syntax.
 To enter the build environment, simply execute `run-env.sh`. You can also forward build commands such as `bitbake -h` to this script.
 
 For example, execute `run-env.sh "MACHINE=raspberrypi3 BSP_LAYER=meta-raspberrypi bitbake full-image"` to start a build for one of the supported boards.
+
+**Note**: If you are on a non-release branch, be sure to start the environment with `RELEASE_TAG=<release> ./run-env.sh`.
 
 The environment also allows you to expose additional variables to the bitbake environment using the standard Yocto way, 
 via `BB_ENV_EXTRAWHITE="MYVAR1 MYVAR2"`.
@@ -146,6 +155,7 @@ To switch modes, you can use
 ```bash
 sw-mode-control start-system|start-recovery
 ```
+
 
 ## Contribution
 
