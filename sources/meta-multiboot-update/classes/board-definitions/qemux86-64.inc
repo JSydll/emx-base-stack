@@ -9,14 +9,18 @@ DEPENDS += " \
 WIC_DEVICE="sda"
 
 # Bootloader
-WIC_BOOTLOADER_PART_SIZE = "50M"
+WIC_BOOTLOADER_PART_SIZE = "40M"
 WIC_BOOTLOADER_PART_CMD = "\
     --source rawcopy --sourceparams='file=efi-boot.vfat' \
-    --fstype=vfat --label boot --active --align 4096 --fixed-size ${WIC_BOOTLOADER_PART_SIZE} \
+        --fstype=vfat --label boot --active --align 4096 --fixed-size ${WIC_BOOTLOADER_PART_SIZE} \
 "
 # Extra partition for bootloader updates
 WIC_BOOTLOADER_EXTRA_PART_CMD = "\
-    part --ondisk ${WIC_DEVICE} --fixed-size ${WIC_BOOTLOADER_PART_SIZE} --align 4096 --no-table\
+    part --ondisk ${WIC_DEVICE} --fixed-size ${WIC_BOOTLOADER_PART_SIZE} --align 4096 --no-table \
+"
+WIC_BOOTLOADER_ENV_PART_CMD = "\
+    part --ondisk ${WIC_DEVICE} --source rawcopy --sourceparams='file=grubenv.vfat' \
+        --fstype=vfat --label grubenv --fixed-size 10M --align 1024 \
 "
 WIC_BOOTLOADER_CONFIG = "--ptable ${PTABLE_TYPE}"
 
