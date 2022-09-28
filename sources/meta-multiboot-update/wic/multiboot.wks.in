@@ -9,9 +9,9 @@ bootloader ${WIC_BOOTLOADER_CONFIG}
 # The target implementation must provide specific artifacts and fstypes
 part --ondisk ${WIC_DEVICE} ${WIC_BOOTLOADER_PART_CMD}
 ${WIC_BOOTLOADER_EXTRA_PART_CMD}
+${WIC_BOOTLOADER_ENV_PART_CMD}
 
 # Recovery
-# The target implementation must provide the necessary IMAGE_BOOT_FILES 
 part --ondisk ${WIC_DEVICE} ${WIC_KERNELIMG_SOURCE} --fstype=vfat --fixed-size ${WIC_KERNELIMG_PART_SIZE} ${WIC_FIRST_PARTITION_OFFSET} --label boot_recov 
 part --ondisk ${WIC_DEVICE} ${WIC_RECOVERY_ROOTFS_SOURCE} --fstype=squashfs --fixed-size ${WIC_RECOVERY_ROOTFS_PART_SIZE}
 

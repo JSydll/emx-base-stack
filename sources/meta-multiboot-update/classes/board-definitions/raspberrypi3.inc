@@ -15,6 +15,7 @@ WIC_BOOTLOADER_PART_CMD = "\
     --fstype=vfat --label boot --active --align 4096 --fixed-size ${WIC_BOOTLOADER_PART_SIZE}\
 "
 WIC_BOOTLOADER_EXTRA_PART_CMD = ""
+WIC_BOOTLOADER_ENV_PART_CMD = ""
 WIC_BOOTLOADER_CONFIG = "--ptable ${PTABLE_TYPE}"
 
 # Software partitions
