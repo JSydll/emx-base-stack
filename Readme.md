@@ -1,9 +1,9 @@
 # Embedded Linux Base Stack
 
+[![Build [dunfell][raspberrypi]](https://ci.seydell.org/buildStatus/icon?job=EMX-BASE-STACK_dunfell_raspberrypi_Build)](https://ci.seydell.org/job/EMX-BASE-STACK_dunfell_raspberrypi_Build/) 
+
 This repository aims to provide a reference implementation for updateable, secure embedded Linux systems
 that are built with the Yocto build system.
-
-[![Project Status: WIP](https://www.repostatus.org/badges/latest/wip.svg)](https://github.com/JSydll/emx-base-stack)
 
 **Current features**:
 
