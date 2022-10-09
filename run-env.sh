@@ -30,7 +30,8 @@ function print_features()
 
 The reference implementation currently supports the following boards:
 
-  - raspberrypi3            - Includes: Multiboot, update.
+  - raspberrypi3
+  - qemux86-64
 
 For these, the following images can be built:
 
