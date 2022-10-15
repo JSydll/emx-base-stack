@@ -81,6 +81,10 @@ The branches in this repo are aligned with the Yocto project releases.
 Currently supported releases:
 
 - _dunfell_
+- _kirkstone_
+
+Note: You have to checkout the corresponding branch as the build environment and features
+can significantly differ.
 
 
 ## Supported boards
@@ -127,7 +131,7 @@ For example, execute `run-env.sh "MACHINE=raspberrypi3 BSP_LAYER=meta-raspberryp
 **Note**: If you are on a non-release branch, be sure to start the environment with `RELEASE_TAG=<release> ./run-env.sh`.
 
 The environment also allows you to expose additional variables to the bitbake environment using the standard Yocto way, 
-via `BB_ENV_EXTRAWHITE="MYVAR1 MYVAR2"`.
+via `BB_ENV_PASSTHROUGH_ADDITIONS="MYVAR1 MYVAR2"`.
 
 
 ## Deploying build artifacts

@@ -1,16 +1,19 @@
-RDEPENDS_${PN} += "bash overlay-control"
+RDEPENDS:${PN} += "bash overlay-control"
 
 SRC_URI += " \
     file://systemd/overlay-setup.service \
     file://usr/bin/factory-reset.sh \
 "
 
-SYSTEMD_SERVICE_${PN} = " \
+SYSTEMD_SERVICE:${PN} = " \
     overlay-setup.service \
 "
 
-FILES_${PN} += "\
+FILES:${PN} += "\
+    ${localstatedir}/* \
     ${systemd_unitdir}/system/* \
+    ${sbindir}/* \
+    ${bindir}/factory-reset \
 "
 
 do_install() {

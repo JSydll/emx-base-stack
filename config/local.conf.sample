@@ -6,7 +6,7 @@ DISTRO ?= 'poky'
 PACKAGE_CLASSES ?= "package_ipk"
 SDKMACHINE = "x86_64"
 
-CONF_VERSION = "1"
+CONF_VERSION = "2"
 
 # -------------------------------------
 # Device / distro infos
@@ -27,10 +27,10 @@ CORE_IMAGE_EXTRA_INSTALL = ""
 DISTRO_FEATURES += "rauc"
 
 # Make the image more lightweight by removing unneeded features
-DISTRO_FEATURES_remove = "3g"
-DISTRO_FEATURES_remove = "nfc"
-DISTRO_FEATURES_remove = "nfs"
-DISTRO_FEATURES_remove = "ext2"
+DISTRO_FEATURES:remove = "3g"
+DISTRO_FEATURES:remove = "nfc"
+DISTRO_FEATURES:remove = "nfs"
+DISTRO_FEATURES:remove = "ext2"
 
 #--------------------------------------
 # Licensing

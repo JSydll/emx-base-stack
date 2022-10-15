@@ -2,7 +2,7 @@ SRC_URI += " \
     file://fstab \
 "
 
-FILES_${PN} += " \
+FILES:${PN} += " \
     ${sysconfdir}/fstab \
 "
 

@@ -11,7 +11,7 @@ SRC_URI += " \
     file://usr/bin/sw-mode-control.sh \
 "
 
-RDEPENDS_${PN} = "bash rauc"
+RDEPENDS:${PN} = "bash rauc"
 
 do_install() {
     install -D -m 0770 ${WORKDIR}/usr/bin/sw-mode-control.sh ${D}${bindir}/sw-mode-control

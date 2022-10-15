@@ -14,6 +14,6 @@ SRC_URI += " \
     file://sbin/setup-overlays-system \
 "
 
-do_install_append() {
+do_install:append() {
     install -m 755 ${WORKDIR}/sbin/setup-overlays-system ${D}/${sbindir}/setup-overlays
 }

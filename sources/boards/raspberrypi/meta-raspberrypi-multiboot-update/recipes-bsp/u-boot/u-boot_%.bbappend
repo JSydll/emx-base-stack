@@ -1,5 +1,5 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRC_URI_append_rpi = " \
+SRC_URI_rpi:append = " \
     file://fw_env.config \
 "

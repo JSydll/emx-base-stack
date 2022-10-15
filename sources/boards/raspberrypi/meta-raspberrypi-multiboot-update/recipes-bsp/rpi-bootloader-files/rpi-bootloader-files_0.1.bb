@@ -27,7 +27,7 @@ do_compile() {
     tar -czf ${RPI_BOOTLOADER_FILES_PACKAGE} -C ${WORKDIR}/files .
 }
 do_compile[depends] += " \
-    bootfiles:do_deploy \
+    rpi-bootfiles:do_deploy \
     rpi-config:do_deploy \
     u-boot:do_deploy \
     u-boot-default-script:do_deploy \

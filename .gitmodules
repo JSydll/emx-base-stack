@@ -1,28 +1,28 @@
 [submodule "environment"]
 	path = environment
 	url = https://github.com/JSydll/docker-yocto-env
-	branch = dunfell
+	branch = kirkstone
 [submodule "sources/poky"]
 	path = sources/poky
 	url = https://git.yoctoproject.org/poky
-	branch = dunfell
+	branch = kirkstone
 [submodule "sources/meta-poky-extensions"]
 	path = sources/meta-poky-extensions
 	url = https://github.com/JSydll/meta-poky-extensions
-	branch = dunfell
+	branch = kirkstone
 [submodule "sources/openembedded"]
 	path = sources/openembedded
 	url = https://github.com/openembedded/meta-openembedded
-	branch = dunfell
+	branch = kirkstone
 [submodule "sources/meta-rauc"]
 	path = sources/meta-rauc
 	url = https://github.com/rauc/meta-rauc.git
-	branch = dunfell
+	branch = kirkstone
 [submodule "sources/boards/raspberrypi/meta-raspberrypi"]
 	path = sources/boards/raspberrypi/meta-raspberrypi
 	url = https://git.yoctoproject.org/git/meta-raspberrypi
-	branch = dunfell
+	branch = kirkstone
 [submodule "sources/meta-common-emx"]
 	path = sources/meta-common-emx
 	url = https://github.com/JSydll/meta-common-emx
-	branch = dunfell
+	branch = kirkstone

@@ -14,13 +14,14 @@ SRC_URI += " \
     file://systemd/update-observer.service \
 "
 
-RDEPENDS_${PN} = "bash inotify-tools sw-mode-control"
+RDEPENDS:${PN} = "bash inotify-tools sw-mode-control"
 
-SYSTEMD_SERVICE_${PN} = " \
+SYSTEMD_SERVICE:${PN} = " \
     update-observer.service \
 "
 
-FILES_${PN} += "\
+FILES:${PN} += "\
+    ${sbindir}/update-observer \
     ${systemd_unitdir}/system/* \
 "
 

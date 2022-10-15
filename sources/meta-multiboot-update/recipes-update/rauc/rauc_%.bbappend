@@ -1,6 +1,6 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRC_URI_append := "  \
+SRC_URI:append := "  \
     file://ca.cert.pem \
 	file://system.conf.j2 \
 "
@@ -12,7 +12,7 @@ TEMPLATE_FILE = "${WORKDIR}/system.conf.j2"
 # Add the variables used below to the environment
 include rauc-environment.inc
 
-python do_patch_append() {
+python do_patch:append() {
     params = {
         "product_name" : d.getVar("PRODUCT_NAME"),
         "bootloader": d.getVar("BOOTLOADER"),
