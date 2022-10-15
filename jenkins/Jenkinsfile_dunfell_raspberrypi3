@@ -1,17 +1,15 @@
 pipeline {
     agent any
-    
     parameters {
         choice(name: 'BuildArtifact', choices: ['full-image', 'system-update-bundle', 'recovery-update-bundle'], description: 'Select the build artefact to be created.')
         choice(name: 'Cache', choices: ['Wipe', 'Keep'], description: 'Select how the build cache should be handled. >Wipe< erases all cached data for all packages linked to the selected build target and >Keep< uses the cache as much as possible.')
+        booleanParam(name: 'RecreateEnvironment', defaultValue: false, description: 'Recreate the build environment?')
     }
     environment {
-        AGENT_DOCKER_VOLUME="jenkins_agent_workspace"
-        
         RELEASE_TAG="dunfell"
         ENV_FILE = """\
             USER=jenkins
-            MOUNT_VOLUME=${AGENT_DOCKER_VOLUME}:${WORKSPACE}/..
+            MOUNT_VOLUME=jenkins_agent_workspace:${WORKSPACE}/..
             PROJECT_ROOT=${WORKSPACE}
             POKY_DIR=sources/poky
             BUILD_DIR=build
@@ -36,22 +34,28 @@ pipeline {
                 ])
             }
         }
-        stage("Build [raspberrypi3]") {
+        stage('Prepare environment') {
             steps {
                 sh """
                     # Provide build environment
                     echo "${ENV_FILE}" > .env
-                    export RELEASE_TAG=${RELEASE_TAG}
+                    
+                    # Rebuild the environment itself
+                    if [ "${params.RecreateEnvironment}" = "true" ]; then
+                        ./run-env.sh --rebuild echo "Completed environment setup!"
+                    fi
                     
                     # Optionally clean the build cache
                     if [ "${params.Cache}" = "Wipe" ]; then
                         # Keep the sstatecache
                         rm -rf build/tmp
                     fi
-                    
-                    # Start build
-                    ./run-env.sh bitbake ${params.BuildArtifact}
                 """
+            }
+        }
+        stage("Build") {
+            steps {
+                sh "./run-env.sh bitbake ${params.BuildArtifact}"
             }
         }
     }

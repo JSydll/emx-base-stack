@@ -1,6 +1,6 @@
 # Embedded Linux Base Stack
 
-[![Build [raspberrypi]](https://ci.seydell.org/buildStatus/icon?job=EMX-BASE-STACK_dunfell_raspberrypi_Build&subject=raspberrypi3)](https://ci.seydell.org/job/EMX-BASE-STACK_dunfell_raspberrypi_Build/) 
+[![Build [kirkstone|raspberrypi]](https://ci.seydell.org/buildStatus/icon?job=emx-base-stack_kirkstone_raspberrypi3&subject=kirkstone/raspberrypi3)](https://ci.seydell.org/job/emx-base-stack_kirkstone_raspberrypi3/) [![Build [dunfell|raspberrypi]](https://ci.seydell.org/buildStatus/icon?job=emx-base-stack_dunfell_raspberrypi3&subject=dunfell/raspberrypi3)](https://ci.seydell.org/job/emx-base-stack_dunfell_raspberrypi3/) 
 
 This repository aims to provide a reference implementation for updateable, secure embedded Linux systems
 that are built with the Yocto build system.
@@ -78,10 +78,12 @@ For development, it is recommended to also install (and use!)
 ## Branching strategy
 
 The branches in this repo are aligned with the Yocto project releases.
-Currently supported releases:
 
-- _dunfell_
+Currently supported releases:
 - _kirkstone_
+
+Provided, yet not necessarily maintained releases:
+- _dunfell_ 
 
 Note: You have to checkout the corresponding branch as the build environment and features
 can significantly differ.
