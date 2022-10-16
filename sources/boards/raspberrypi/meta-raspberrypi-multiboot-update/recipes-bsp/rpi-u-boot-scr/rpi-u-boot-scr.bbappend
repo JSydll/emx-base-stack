@@ -11,7 +11,7 @@ RPI_EXTRA_KERNEL_CMD ?= "console=tty1 vt.global_cursor_default=0"
 
 do_compile:prepend() {
     bbdebug 2 "Collecting default kernel command line arguments from cmdline.txt..."
-    default_bootargs="$(cat ${DEPLOY_DIR_IMAGE}/${BOOTFILES_DIR_NAME}/cmdline.txt) ${RPI_EXTRA_KERNEL_CMD}"
+    default_bootargs="$(cat ${DEPLOY_DIR_IMAGE}/${BOOTFILES_DIR_NAME}/cmdline.txt 2>/dev/null) ${RPI_EXTRA_KERNEL_CMD}"
 
     bbdebug 2 "Setting mmc block device to ${MMC_BLOCK_DEVICE_NUM}, DTB file to ${DTB_FILE_NAME} and kernel default arguments to '${default_bootargs}'..."
     sed -e "s|@@MMC_BLOCK_DEVICE_NUM@@|${MMC_BLOCK_DEVICE_NUM}|" \
@@ -20,5 +20,6 @@ do_compile:prepend() {
         "${WORKDIR}/boot.cmd.pre.in" > "${WORKDIR}/boot.cmd.in"
 }
 do_compile[depends] += " \
+    rpi-bootfiles:do_deploy \
     linux-raspberrypi:do_deploy \
 "
