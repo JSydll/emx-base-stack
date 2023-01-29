@@ -1,0 +1,12 @@
+[Unit]
+Description=Initialization of the robust filesystem
+# This is an early boot service, so do not add default dependencies
+DefaultDependencies=no
+Before=local-fs-pre.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/initialize-filesystem
+
+[Install]
+WantedBy=default.target

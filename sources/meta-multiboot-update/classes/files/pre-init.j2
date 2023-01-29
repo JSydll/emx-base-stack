@@ -1,0 +1,59 @@
+#!/bin/sh -e
+#
+# Attempts to mount a persistent, writable partition to be used in overlays
+# and provides a volatile fallback in case of error
+
+function log() {
+    echo "<6>$1" > /dev/kmsg
+}
+
+function continue_init() {
+    log "Hand-over to original init routine..."
+    exec /sbin/"{{ original_init_name }}"
+}
+
+# Ensure that the regular init process takes over in any case
+trap continue_init EXIT ERR
+
+# Platform specific configuration
+readonly PERSISTENT_DEVICE="{{ persistent_device }}"
+readonly PARTITION_TYPE="{{ partition_type }}"
+readonly SOFTWARE_MODE="{{ software_mode }}"
+
+# Mountpoints
+readonly PERSISTENT_MOUNT_POINT="/var/mounts/persistent"
+readonly VOLATILE_OVERLAYS_MOUNT_POINT="/var/volatile-overlays"
+
+# Filesystem conventions
+readonly PRIVATE_DATA_DIR="/var/persistent/private"
+readonly SHARED_DATA_DIR="/var/persistent/shared"
+
+log "Starting pre-init routine..."
+log "Setup the volatile fallback fs..."
+mount -t tmpfs -o defaults volatilefs "${VOLATILE_OVERLAYS_MOUNT_POINT}"
+
+log "Provide a writable, volatile /var/lib overlay..."
+mkdir -p "${VOLATILE_OVERLAYS_MOUNT_POINT}"/var-lib "${VOLATILE_OVERLAYS_MOUNT_POINT}"/var-lib-work
+mount -t overlay -o defaults,lowerdir=/var/lib,upperdir="${VOLATILE_OVERLAYS_MOUNT_POINT}"/var-lib,workdir="${VOLATILE_OVERLAYS_MOUNT_POINT}"/var-lib-work overlay_var-lib /var/lib
+
+log "Provide a writable, volatile /etc overlay..."
+
+# Note: While it would be more robust to only expose single files from /etc to be writable,
+# systemd does not yet fully support leaving /etc read-only and defining only certain
+# services to use a different, writable filesystem path for their configuration and data.
+
+mkdir -p "${VOLATILE_OVERLAYS_MOUNT_POINT}"/etc "${VOLATILE_OVERLAYS_MOUNT_POINT}"/etc-work
+mount -t overlay -o defaults,lowerdir=/etc,upperdir="${VOLATILE_OVERLAYS_MOUNT_POINT}"/etc,workdir="${VOLATILE_OVERLAYS_MOUNT_POINT}"/etc-work overlay_etc /etc
+
+log "Mount the persistent filesystem and fallback to volatile on failure..."
+if mount -t "${PARTITION_TYPE}" -o defaults,noatime "${PERSISTENT_DEVICE}" "${PERSISTENT_MOUNT_POINT}"; then
+    PERSISTENT_DATA_DIR="${PERSISTENT_MOUNT_POINT}"
+else
+    PERSISTENT_DATA_DIR="${VOLATILE_OVERLAYS_MOUNT_POINT}"
+fi
+
+mkdir -p "${PERSISTENT_DATA_DIR}/${SOFTWARE_MODE}" "${PERSISTENT_DATA_DIR}/shared"
+mount -o bind "${PERSISTENT_DATA_DIR}/${SOFTWARE_MODE}"  "${PRIVATE_DATA_DIR}"
+mount -o bind "${PERSISTENT_DATA_DIR}/shared"            "${SHARED_DATA_DIR}"
+
+log "Pre-init completed."

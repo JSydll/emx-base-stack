@@ -6,6 +6,7 @@ SUMMARY = "Reusable class representing the minimal contents of an image / rootfs
 LICENSE = "MIT"
 
 inherit core-image
+inherit image-with-robust-filesystem-init
 
 # Include information about the build in the image
 inherit image-buildinfo
