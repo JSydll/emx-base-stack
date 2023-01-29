@@ -1,0 +1,3 @@
+inherit robust-filesystem-init-env
+
+FS_INIT_PERSISTENT_DEVICE = "/dev/${MMC_BLOCK_DEVICE}p${FS_PERSISTENT_PARTITION_OFFSET}"

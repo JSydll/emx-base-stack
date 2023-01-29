@@ -5,11 +5,8 @@ SUMMARY = "Reusable class to create a system image / rootfs."
 
 LICENSE = "MIT"
 
-inherit partial-image
+FS_INIT_RECIPE_NAME = "robust-filesystem-system-init"
 
-IMAGE_INSTALL += " \
-    overlays-system \
-    base-files-system \
-"
+inherit partial-image
 
 IMAGE_FSTYPES = "ext4"

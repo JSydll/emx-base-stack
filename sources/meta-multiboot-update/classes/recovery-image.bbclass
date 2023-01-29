@@ -5,12 +5,9 @@ SUMMARY = "Reusable class to create a recovery image / rootfs."
 
 LICENSE = "MIT"
 
-inherit partial-image
+FS_INIT_RECIPE_NAME = "robust-filesystem-recovery-init"
 
-IMAGE_INSTALL += " \
-    overlays-recovery \
-    base-files-recovery \
-"
+inherit partial-image
 
 IMAGE_FSTYPES = "squashfs"
 

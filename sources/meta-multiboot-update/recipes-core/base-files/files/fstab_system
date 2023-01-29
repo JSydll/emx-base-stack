@@ -1,8 +1,0 @@
-# Basic overlays
-overlay_etc     /etc        overlay     x-systemd.requires=overlay-setup.service,x-systemd.requires=/var/persistent,rw,relatime,lowerdir=/etc,upperdir=/var/persistent/overlay/system/etc,workdir=/var/persistent/overlay/system/etc-work 0 0
-overlay_lib     /var/lib    overlay     x-systemd.requires=overlay-setup.service,x-systemd.requires=/var/persistent,rw,relatime,lowerdir=/var/lib,upperdir=/var/persistent/overlay/system/var/lib,workdir=/var/persistent/overlay/system/var/lib-work 0 0
-overlay_data    /var/data   overlay     x-systemd.requires=overlay-setup.service,x-systemd.requires=/var/persistent,rw,relatime,lowerdir=/var/data,upperdir=/var/persistent/overlay/system/var/data,workdir=/var/persistent/overlay/system/var/data-work 0 0
-
-# Persistent logging
-/var/persistent/log  /var/log   none    defaults,bind,x-systemd.requires=overlay-setup.service,x-systemd.requires=/var/persistent,sync,nofail 0 0
-

@@ -8,7 +8,4 @@
 
 # Default overlays
 overlay-control clear-upper '/etc'
-
-# Optional overlays
 overlay-control clear-upper '/var/lib'
-overlay-control clear-upper '/var/data'

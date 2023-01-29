@@ -1,3 +1,0 @@
-# Basic overlays
-overlay_etc     /etc        overlay     x-systemd.requires=overlay-setup.service,x-systemd.requires=/var/persistent,rw,relatime,lowerdir=/etc,upperdir=/var/persistent/overlay/recovery/etc,workdir=/var/persistent/overlay/recovery/etc-work 0 0
-
