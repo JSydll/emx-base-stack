@@ -80,7 +80,7 @@ For development, it is recommended to also install (and use!)
 The branches in this repo are aligned with the Yocto project releases.
 Currently supported releases:
 
-- _dunfell_
+- _dunfell_ (no further feature development)
 
 
 ## Supported boards
