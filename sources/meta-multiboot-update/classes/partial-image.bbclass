@@ -1,5 +1,5 @@
 # -------------------------------------------------------------------
-# Reusable class representing the minimal contents of an image / rootfs.
+# Reusable class representing the minimal contents of a partial image / rootfs.
 # -------------------------------------------------------------------
 SUMMARY = "Reusable class representing the minimal contents of an image / rootfs."
 
@@ -18,6 +18,7 @@ IMAGE_INSTALL += " \
     rauc \
     rsync \
     screen \
+    sudo \
     \
     openssh \
     openssl \
@@ -27,7 +28,7 @@ IMAGE_INSTALL += " \
     update-observer \
 "
 
-IMAGE_FEATURES += "\
+IMAGE_FEATURES += " \
     ssh-server-openssh \
 "
 

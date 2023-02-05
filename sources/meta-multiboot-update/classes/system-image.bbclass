@@ -5,10 +5,9 @@ SUMMARY = "Reusable class to create a system image / rootfs."
 
 LICENSE = "MIT"
 
-inherit minimal-image
+inherit partial-image
 
 IMAGE_INSTALL += " \
-    sudo \
     overlays-system \
     base-files-system \
 "

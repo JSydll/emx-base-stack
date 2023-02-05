@@ -5,10 +5,9 @@ SUMMARY = "Reusable class to create a recovery image / rootfs."
 
 LICENSE = "MIT"
 
-inherit minimal-image
+inherit partial-image
 
 IMAGE_INSTALL += " \
-    sudo \
     overlays-recovery \
     base-files-recovery \
 "
