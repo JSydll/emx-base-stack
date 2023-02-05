@@ -29,9 +29,15 @@ DEPENDS += " \
 "
 
 # Enforce the images of the respective modes complete before building the integrated image.
-do_rootfs[depends] += "\
+do_rootfs[depends] += " \
     ${RECOVERY_IMAGE_NAME}:do_image_complete \
     ${SYSTEM_IMAGE_NAME}:do_image_complete \
+"
+
+# Make sure to clean partial images when cleaning the full image.
+do_clean[depends] += " \
+    ${RECOVERY_IMAGE_NAME}:do_clean \
+    ${SYSTEM_IMAGE_NAME}:do_clean \
 "
 
 # ----------------------------------------------------
@@ -40,7 +46,7 @@ do_rootfs[depends] += "\
 
 inherit export-multiboot-properties
 
-do_copy_wic_partitions() {
+do_deploy_wic_artifacts() {
     wic_workdir="${WORKDIR}/build-wic"
     image_link_base="${PN}-${MACHINE}"
     image_base="${image_link_base}-${DATETIME}"
@@ -63,6 +69,6 @@ do_copy_wic_partitions() {
     cp -v "${wic_workdir}"/*.direct.p"${SYSTEM_ROOTFS_PART}" "${IMGDEPLOYDIR}"/"${image_base}.${ext}"
     ln -svf "${image_base}.${ext}" "${IMGDEPLOYDIR}"/"${image_link_base}.${ext}"
 }
-do_copy_wic_partitions[vardepsexclude] += "DATETIME"
+do_deploy_wic_artifacts[vardepsexclude] += "DATETIME"
 
-addtask copy_wic_partitions after do_image_wic before do_image_complete
+addtask deploy_wic_artifacts after do_image_wic before do_image_complete
