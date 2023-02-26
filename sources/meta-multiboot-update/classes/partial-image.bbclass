@@ -13,12 +13,8 @@ inherit image-buildinfo
 IMAGE_INSTALL += " \
     bash \
     iproute2 \
-    man \
     nano \
     rauc \
-    rsync \
-    screen \
-    sudo \
     \
     openssh \
     openssl \
