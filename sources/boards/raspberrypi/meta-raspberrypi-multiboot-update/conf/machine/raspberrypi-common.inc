@@ -36,6 +36,7 @@ RPI_EXTRA_CONFIG:append = " \n# Enforce u-boot as 4th-stage bootloader \nkernel=
 
 # Image features
 IMAGE_INSTALL:append = " \
+    u-boot \
     linux-firmware-bcm43430 \
     i2c-tools \
 "

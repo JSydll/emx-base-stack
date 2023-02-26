@@ -11,8 +11,8 @@ WIC_DEVICE="sda"
 # Bootloader
 WIC_BOOTLOADER_PART_SIZE = "40M"
 WIC_BOOTLOADER_PART_CMD = "\
-    --source rawcopy --sourceparams='file=efi-boot.vfat' \
-        --fstype=vfat --label boot --active --align 4096 --fixed-size ${WIC_BOOTLOADER_PART_SIZE} \
+    /boot   --source rawcopy --sourceparams='file=efi-boot.vfat' \
+            --fstype=vfat --label boot --active --align 4096 --fixed-size ${WIC_BOOTLOADER_PART_SIZE} \
 "
 # Extra partition for bootloader updates
 WIC_BOOTLOADER_EXTRA_PART_CMD = "\
