@@ -1,10 +1,10 @@
 inherit set-root-pwd
+inherit enable-wifi-ap
 
 IMAGE_INSTALL += " \
     loadkeys \
     \
     static-ip-config \
-    wifi-ap-config \
     \
     media-automount \
 "
