@@ -16,3 +16,9 @@ features can be used.
 
 Yocto uses an implementation of the QEMU project as part of the development “tool set”.
 See the [corresponding documentation](https://docs.yoctoproject.org/dev-manual/qemu.html) for details.
+
+To support running within the dockerized environment, the `slirp` and `nographic` options may need to be used:
+
+```bash
+runqemu qemux86-64 slirp nographic
+```
