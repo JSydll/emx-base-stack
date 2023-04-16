@@ -7,8 +7,6 @@ SUMMARY = "Provides a failsafe filesystem initialization."
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-require robust-filesystem-init-config-${STORAGE_TYPE}.inc
-
 inherit robust-filesystem-init-base
 
 # Note: The variable FS_INIT_PERSISTENT_DEVICE needs to be set via .bbappends or local.conf
@@ -35,6 +33,9 @@ RDEPENDS:${PN} += " \
 inherit systemd
 
 SYSTEMD_SERVICE:${PN} += "initialize-filesystem.service"
+
+# Storage type specific variable definitions and extensions
+require robust-filesystem-init-config-${STORAGE_TYPE}.inc
 
 do_install:append() {
     install -d ${D}/${bindir}

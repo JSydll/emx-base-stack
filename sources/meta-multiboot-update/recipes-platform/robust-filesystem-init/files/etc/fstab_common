@@ -6,3 +6,4 @@
 
 # Setup persistent logging
 /var/persistent/private/log     /var/log    none    bind,x-systemd.requires=initialize-filesystem.service,defaults  0 0
+
