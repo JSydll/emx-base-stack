@@ -1,8 +1,8 @@
+# Share SSH configuration across the system
+etc_ssh_shared      /etc/ssh    overlay     lowerdir=/etc/ssh,upperdir=/var/persistent/shared/overlays/ssh,workdir=/var/persistent/shared/overlays/ssh-work,x-systemd.requires=initialize-filesystem.service,defaults  0 0
+
 # Provide access to shared media
 /var/persistent/shared/media    /media      none    bind,x-systemd.requires=initialize-filesystem.service,defaults  0 0
-
-# Share SSH configuration across the system
-/var/persistent/shared/ssh      /etc/ssh    none    bind,x-systemd.requires=initialize-filesystem.service,defaults  0 0
 
 # Setup persistent logging
 /var/persistent/private/log     /var/log    none    bind,x-systemd.requires=initialize-filesystem.service,defaults  0 0
