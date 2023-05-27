@@ -15,7 +15,7 @@ BB_GENERATE_MIRROR_TARBALLS = "1"
 # Device / distro infos
 # -------------------------------------
 PRODUCT_NAME = "updatable-pi"
-PRODUCT_VERSION = "0.1.0"
+PRODUCT_VERSION = "0.2.1"
 
 hostname:pn-base-files = "${PRODUCT_NAME}"
 DISTRO_NAME:pn-base-files = "emx-base"

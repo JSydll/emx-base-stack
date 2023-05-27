@@ -29,6 +29,11 @@ IMAGE_FEATURES += " \
     ssh-server-openssh \
 "
 
+# Optional features
+IMAGE_INSTALL += " \
+    ${@bb.utils.contains('UPDATE_BACKEND', 'hawkbit', 'rauc-hawkbit-updater', '', d) } \
+"
+
 # Enable this image / derived images to be referenced in wic images.
 # ------------------------------------------------------------------
 # Note: do_rootfs_wicenv creates the .env file containing meta information

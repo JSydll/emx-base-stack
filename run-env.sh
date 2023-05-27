@@ -81,8 +81,9 @@ export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS} \
   BSP_LAYERS \
 "
 
-# Extend whitelist with variables from meta-common-emx
+# Extend whitelist with variables from layers
 # shellcheck disable=SC1091
 . ./sources/meta-common-emx/scripts/whitelisting.sh
+. ./sources/meta-multiboot-update/scripts/whitelisting.sh
 
 ./environment/init.sh --env-file "${SCRIPT_DIR}/.env" "${POSITIONAL_ARGS[@]}"
