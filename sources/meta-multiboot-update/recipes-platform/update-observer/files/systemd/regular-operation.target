@@ -1,0 +1,8 @@
+[Unit]
+Description=Indicates regular operation
+Wants=update-observer.service
+After=update-observer.service
+
+[Install]
+WantedBy=default.target
+

@@ -3,12 +3,12 @@
 # Attempts to mount a persistent, writable partition to be used in overlays
 # and provides a volatile fallback in case of error
 
-function log() {
+function klog() {
     echo "<6>$1" > /dev/kmsg
 }
 
 function continue_init() {
-    log "Hand-over to original init routine..."
+    klog "Hand-over to original init routine..."
     exec /sbin/"{{ original_init_name }}"
 }
 
@@ -28,15 +28,15 @@ readonly VOLATILE_OVERLAYS_MOUNT_POINT="/var/volatile-overlays"
 readonly PRIVATE_DATA_DIR="/var/persistent/private"
 readonly SHARED_DATA_DIR="/var/persistent/shared"
 
-log "Starting pre-init routine..."
-log "Setup the volatile fallback fs..."
+klog "Starting pre-init routine..."
+klog "Setup the volatile fallback fs..."
 mount -t tmpfs -o defaults volatilefs "${VOLATILE_OVERLAYS_MOUNT_POINT}"
 
-log "Provide a writable, volatile /var/lib overlay..."
+klog "Provide a writable, volatile /var/lib overlay..."
 mkdir -p "${VOLATILE_OVERLAYS_MOUNT_POINT}"/var-lib "${VOLATILE_OVERLAYS_MOUNT_POINT}"/var-lib-work
 mount -t overlay -o defaults,lowerdir=/var/lib,upperdir="${VOLATILE_OVERLAYS_MOUNT_POINT}"/var-lib,workdir="${VOLATILE_OVERLAYS_MOUNT_POINT}"/var-lib-work overlay_var-lib /var/lib
 
-log "Provide a writable, volatile /etc overlay..."
+klog "Provide a writable, volatile /etc overlay..."
 
 # Note: While it would be more robust to only expose single files from /etc to be writable,
 # systemd does not yet fully support leaving /etc read-only and defining only certain
@@ -45,7 +45,7 @@ log "Provide a writable, volatile /etc overlay..."
 mkdir -p "${VOLATILE_OVERLAYS_MOUNT_POINT}"/etc "${VOLATILE_OVERLAYS_MOUNT_POINT}"/etc-work
 mount -t overlay -o defaults,lowerdir=/etc,upperdir="${VOLATILE_OVERLAYS_MOUNT_POINT}"/etc,workdir="${VOLATILE_OVERLAYS_MOUNT_POINT}"/etc-work overlay_etc /etc
 
-log "Mount the persistent filesystem and fallback to volatile on failure..."
+klog "Mount the persistent filesystem and fallback to volatile on failure..."
 if mount -t "${PARTITION_TYPE}" -o defaults,noatime "${PERSISTENT_DEVICE}" "${PERSISTENT_MOUNT_POINT}"; then
     PERSISTENT_DATA_DIR="${PERSISTENT_MOUNT_POINT}"
 else
@@ -56,4 +56,4 @@ mkdir -p "${PERSISTENT_DATA_DIR}/${SOFTWARE_MODE}" "${PERSISTENT_DATA_DIR}/share
 mount -o bind "${PERSISTENT_DATA_DIR}/${SOFTWARE_MODE}"  "${PRIVATE_DATA_DIR}"
 mount -o bind "${PERSISTENT_DATA_DIR}/shared"            "${SHARED_DATA_DIR}"
 
-log "Pre-init completed."
+klog "Pre-init completed."

@@ -7,3 +7,7 @@ LICENSE = "MIT"
 
 inherit system-image
 require common-image-features.inc
+
+IMAGE_INSTALL += " \
+    sample-app \
+"
