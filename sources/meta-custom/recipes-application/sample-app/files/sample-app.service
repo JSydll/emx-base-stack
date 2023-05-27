@@ -1,0 +1,12 @@
+[Unit]
+Description=Sample application
+Requires=regular-operation.target
+After=regular-operation.target
+
+[Service]
+Type=simple
+RemainAfterExit=yes
+ExecStart=/usr/bin/systemd-cat echo "Started Sample Application!"
+
+[Install]
+WantedBy=default.target
