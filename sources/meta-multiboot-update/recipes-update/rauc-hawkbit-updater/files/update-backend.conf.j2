@@ -1,0 +1,17 @@
+[client]
+hawkbit_server            = {{ update_backend_url }}
+# Note: This setup does not use the more specifc and secure auth_token!
+gateway_token             = {{ update_auth_token }}
+target_name               = {{ product_name }}
+stream_bundle             = {{ enable_streaming }}
+bundle_download_location  = /tmp/hawkbit-update.raucb
+resume_downloads          = true
+log_level                 = debug
+post_update_reboot        = false
+# Omitting ssl encryption for development purposes
+ssl                       = false
+ssl_verify                = false
+
+[device]
+product                   = {{ product_name }}
+product_version           = {{ product_version }}
