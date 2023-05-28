@@ -14,13 +14,13 @@ that are built with the Yocto build system.
 - Authentication of updates via certificates
 - Some common configurations (like root password, ssh config, etc)
 - Lightweight factory reset (through overlay clearance)
-
-**Planned features**:
-
 - Updates over various sources
   - from media device (USB)
   - via network download (ssh)
-  - over-the-air (using `hawkbit` as remote backend)
+  - over-the-air (using `hawkbit` as remote backend, see [backend](./backend/Readme.md))
+
+**Planned features**:
+
 - Application watchdog to determine system health
 - Differential updates (using `casync`)
 - Support for update bundle encryption
@@ -73,6 +73,10 @@ some:
 For development, it is recommended to also install (and use!)
 
 - `shellcheck`
+
+If you want to run the `hawkbit` Update Backend Server, you'll also need
+
+- `docker-compose`
 
 
 ## Branching strategy

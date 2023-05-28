@@ -13,6 +13,8 @@ and useful resources are linked.
   - [Concepts](./software-update/01-concepts.md)
   - [Board integration](./software-update/02-integration.md)
   - [Software update bundles](./software-update/03-bundles.md)
+  - [Software distribution](./software-update/04-distribution.md)
 
 - **Board integrations for Software Update & Multiboot**
   - [Raspberry Pi](./board-integrations/01-raspberrypi.md)
+  - [Qemu](./board-integrations/02-qemu.md)
