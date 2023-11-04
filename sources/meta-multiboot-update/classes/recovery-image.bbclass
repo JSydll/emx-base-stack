@@ -2,14 +2,15 @@
 # Reusable class to create a recovery image / rootfs.
 # -------------------------------------------------------------------
 SUMMARY = "Reusable class to create a recovery image / rootfs."
-
 LICENSE = "MIT"
-
-FS_INIT_RECIPE_NAME = "robust-filesystem-recovery-init"
 
 inherit partial-image
 
 IMAGE_FSTYPES = "squashfs"
+
+IMAGE_INSTALL += " \
+    robust-filesystem-recovery-init \
+"
 
 # --------------
 # Postprocessing
