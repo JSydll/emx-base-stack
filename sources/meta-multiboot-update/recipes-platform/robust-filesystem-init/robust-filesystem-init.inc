@@ -56,7 +56,7 @@ FILES:${PN} += " \
     /sbin/${FS_PRE_INIT_NAME} \
 "
 
-PRE_INIT_TEMPLATE_PATH = "${WORKDIR}/pre-init.j2"
+PRE_INIT_TEMPLATE_PATH = "${WORKDIR}/sbin/pre-init.j2"
 
 python do_patch() {
     params = { 
@@ -70,7 +70,7 @@ python do_patch() {
 
 do_install:append() {
     install -d ${D}/sbin
-    install -m 0775 ${WORKDIR}/pre-init ${D}/sbin/${FS_PRE_INIT_NAME}
+    install -m 0775 ${WORKDIR}/sbin/pre-init ${D}/sbin/${FS_PRE_INIT_NAME}
 }
 
 SRC_URI += " \
