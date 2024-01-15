@@ -20,6 +20,7 @@ pipeline {
     }
     environment {
         BRANCH = 'kirkstone'
+        MACHINE = 'raspberrypi3'
         RELEASE_TAG = "${BRANCH}"
         ENV_FILE = """\
             USER=jenkins
@@ -28,7 +29,7 @@ pipeline {
             POKY_DIR=sources/poky
             BUILD_DIR=build
             PROJECT_TEMPLATE_DIR=config
-            MACHINE=raspberrypi3
+            MACHINE=${MACHINE}
             BSP_LAYERS=${WORKSPACE}/sources/boards/raspberrypi/meta-raspberrypi,${WORKSPACE}/sources/boards/raspberrypi/meta-raspberrypi-multiboot-update
             ROOT_PWD=super-secret-root-pwd
             KEYBOARD_PROFILE=de-latin1.map
@@ -78,8 +79,14 @@ pipeline {
     post {
         success {
             archiveArtifacts artifacts: 
-                "build/tmp/deploy/images/**/${params.Image}-*.wic.bz, build/tmp/deploy/images/**/${params.Image}-*.raucb",
-                    allowEmptyArchive: true, onlyIfSuccessful: true, followSymlinks: true
+                """
+                    build/tmp/deploy/images/${MACHINE}/${params.Image}-${MACHINE}-*.wic.bz2,
+                    build/tmp/deploy/images/${MACHINE}/${params.Image}-${MACHINE}-*.wic.bmap,
+                    build/tmp/deploy/images/${MACHINE}/${params.Image}-${MACHINE}-*.raucb
+                """.stripIndent().stripMargin(),
+                allowEmptyArchive: true,
+                onlyIfSuccessful: true,
+                followSymlinks: true
         }
     }
 }
