@@ -1,0 +1,82 @@
+# Note: The required machine configuration must be specified via an command-line include or top-level config.
+
+header:
+  version: 1
+  includes:
+    - conf/shared/kas.reproducibility.yml
+    - layers/meta-multiboot-update/conf/kas.meta-multiboot-update.yml
+    - repo: meta-common-emx
+      file: conf/kas.meta-common-emx.yml
+
+distro: poky
+
+defaults:
+  repos:
+    branch: "kirkstone"
+
+repos:
+  poky:
+    url: "https://git.yoctoproject.org/git/poky"
+    layers:
+      meta:
+      meta-poky:
+  meta-openembedded:
+    url: "https://github.com/openembedded/meta-openembedded"
+    layers:
+      meta-oe:
+      meta-multimedia:
+      meta-networking:
+      meta-python:
+
+  meta-poky-extensions:
+    url: "https://github.com/JSydll/meta-poky-extensions"
+  meta-common-emx:
+    url: "https://github.com/JSydll/meta-common-emx"
+
+  meta-rauc:
+    url: "https://github.com/rauc/meta-rauc.git"
+
+  emx-base-stack:
+    layers:
+      layers/meta-multiboot-update:
+      layers/meta-custom:
+
+bblayers_conf_header:
+  main: |
+    LCONF_VERSION = "7"
+
+local_conf_header:
+  main: |
+    # --- General ---
+    PACKAGE_CLASSES ?= "package_ipk"
+    SDKMACHINE = "x86_64"
+    CONF_VERSION = "2"
+
+    # --- Device / distro infos ---
+    PRODUCT_NAME = "updatable-pi"
+    PRODUCT_VERSION = "0.2.1"
+
+    hostname:pn-base-files = "${PRODUCT_NAME}"
+    DISTRO_NAME:pn-base-files = "emx-base"
+    DISTRO_VERSION:pn-base-files = "${PRODUCT_VERSION}"
+
+    # --- Distro & image features ---
+    # Note: debug-tweaks are not enabled so a ROOT_PWD shall be set!
+    CORE_IMAGE_EXTRA_INSTALL = ""
+    DISTRO_FEATURES += "rauc"
+
+    # Make the image more lightweight by removing unneeded features
+    DISTRO_FEATURES:remove = "3g"
+    DISTRO_FEATURES:remove = "nfc"
+    DISTRO_FEATURES:remove = "nfs"
+    DISTRO_FEATURES:remove = "ext2"
+
+    # --- Licensing ---
+    ACCEPT_FSL_EULA = "1"
+    ACCEPT_TI_BT_LICENSE = "1"
+    
+    # --- Image definitions ---
+    RECOVERY_IMAGE_NAME = "custom-recovery-image"
+    SYSTEM_IMAGE_NAME = "custom-system-image"
+
+target: "full-image"

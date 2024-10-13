@@ -1,0 +1,55 @@
+#!/bin/bash
+# ----------------------------------------------------------------------------------
+# This shallow wrapper around the kas tool allows for a transparent entrypoint
+# no matter if executed directly on a host or already within a container.
+#
+# ----------------------------------------------------------------------------------
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+readonly SCRIPT_DIR
+
+REPRODUCIBLE_TIMESTAMP="$(git show -s --format=%ct HEAD)"
+readonly REPRODUCIBLE_TIMESTAMP
+
+readonly KAS_RELEASE="4.5"
+
+readonly KAS_CONTAINER_CMD="${SCRIPT_DIR}"/scripts/kas-"${KAS_RELEASE}"/kas-container
+readonly KAS_NATIVE_CMD="${SCRIPT_DIR}"/scripts/kas-"${KAS_RELEASE}"/run-kas
+
+readonly ENV_FILE_PATH="${SCRIPT_DIR}/.env"
+
+if [[ -f "${ENV_FILE_PATH}" ]]; then
+  source "${ENV_FILE_PATH}"
+fi
+
+export KAS_WORK_DIR="${SCRIPT_DIR}/work"
+export KAS_BUILD_DIR="${SCRIPT_DIR}/build"
+
+if [[ -f "/.dockerenv" ]] || [[ -f "/run/.containerenv" ]]; then
+  # Running in Docker or podman - make sure that the required dependencies are available
+  if ! pip3 show kas; then
+    echo "[ERROR] Determined a container environment missing a kas installation."
+    exit 1
+  fi
+  ${KAS_NATIVE_CMD} "$@"
+  exit $?
+fi
+
+# Running directly on the host, so use containerization
+readonly KAS_RUNTIME_ARGS="\
+  -e REPRODUCIBLE_TIMESTAMP=${REPRODUCIBLE_TIMESTAMP} \
+  -e ROOT_PWD=${ROOT_PWD} \
+  -e KEYBOARD_PROFILE=${KEYBOARD_PROFILE} \
+  -e NETWORK_STATIC_IP=${NETWORK_STATIC_IP} \
+  -e WIFI_SSID=${WIFI_SSID} \
+  -e WIFI_PWD=${WIFI_PWD} \
+  -e SSH_ALLOW_ROOT=${SSH_ALLOW_ROOT} \
+  -e UPDATE_BACKEND=${UPDATE_BACKEND} \
+  -e UPDATE_BACKEND_URL=${UPDATE_BACKEND_URL} \
+  -e UPDATE_AUTH_TOKEN=${UPDATE_AUTH_TOKEN} \
+  -e UPDATE_ENABLE_STREAMING=${UPDATE_ENABLE_STREAMING} \
+"
+
+${KAS_CONTAINER_CMD} --runtime-args "${KAS_RUNTIME_ARGS}" "$@"
