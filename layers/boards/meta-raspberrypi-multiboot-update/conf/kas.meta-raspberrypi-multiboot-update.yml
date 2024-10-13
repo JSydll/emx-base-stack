@@ -1,0 +1,16 @@
+header:
+  version: 1
+
+machine: raspberrypi3
+
+repos:
+  meta-raspberrypi:
+    url: "https://git.yoctoproject.org/git/meta-raspberrypi"
+
+  emx-base-stack:
+    layers:
+      layers/boards/meta-raspberrypi-multiboot-update:
+
+local_conf_header:
+  meta-raspberrypi-multiboot-update: |
+    include conf/machine/raspberrypi3-extra.conf

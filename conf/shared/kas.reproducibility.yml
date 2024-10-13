@@ -1,0 +1,17 @@
+header:
+  version: 1
+
+env:
+  REPRODUCIBLE_TIMESTAMP: "1704106800"
+
+local_conf_header:
+  reproducibility: |
+    # --- Reproducibility ---
+    BB_GENERATE_MIRROR_TARBALLS = "1"
+
+    BUILD_REPRODUCIBLE_BINARIES = "1"
+    export PYTHONHASHSEED = "0"
+    export PERL_HASH_SEED = "0"
+    export TZ = "UTC"
+    export SOURCE_DATE_EPOCH ??= "${REPRODUCIBLE_TIMESTAMP}"
+    REPRODUCIBLE_TIMESTAMP_ROOTFS ??= "${REPRODUCIBLE_TIMESTAMP}"

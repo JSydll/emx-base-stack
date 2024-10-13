@@ -1,0 +1,5 @@
+header:
+  version: 1
+  includes:
+    - conf/shared/kas.project.yml
+    - layers/boards/meta-raspberrypi-multiboot-update/conf/kas.meta-raspberrypi-multiboot-update.yml

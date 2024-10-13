@@ -1,0 +1,8 @@
+header:
+  version: 1
+
+env:
+  UPDATE_BACKEND: "hawkbit"
+  UPDATE_BACKEND_URL: null
+  UPDATE_AUTH_TOKEN: null
+  UPDATE_ENABLE_STREAMING: "no"
