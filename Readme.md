@@ -31,44 +31,34 @@ that are built with the Yocto build system.
 
 To have something ready to install on one of the supported boards, you need to
 
-**(1)** Pull the repository and checkout all submodules with
+**(1)** Install the minimal host system requirements (see below).
+
+**(2)** Pull the repository
 
 ```bash
 git clone https://github.com/JSydll/emx-base-stack
-git submodule update --init --recursive
 ```
 
-**(2)** Install the minimal host system requirements (see below).
+**(3)** Optional: Provide custom configure for some features (e.g. by setting up a `.env` file, see below).
 
-**(3)** Configure the project as desired (by setting up a `.env` file, see below).
-
-**(4)** Start the dockerized build environment by running
+**(4)** Start the build by running
 
 ```bash
-./run-env.sh --rebuild
+./run-kas build conf/<machine>.yml <image [default: full-image]>
 ```
 
-_The `--rebuild` option is only required on first run as it creates the Docker_
-_image used for build containers._
-
-**(5)** Build the target image with 
-
-```bash
-bitbake full-image
-```
-
-**(6)** Locate the `*.wic` image file under `build/tmp/deploy/<machine>/` and flash it
+**(5)** Locate the `*.wic` image file under `build/tmp/deploy/<machine>/` and flash it
 on the device/ memory card using a tool like `Etcher`. 
 
 
 ### Host system requirements
 
-The host system requirements are reduced as much as possibe, yet there are
+The host system requirements are reduced as much as possible, yet there are
 some:
 
 - `git` _(well, who doesn't need it...)_
 - `bash`
-- `Docker` (and possibly other build environment requirements, see [here](./environment/Readme.md))
+- `Docker`
 
 For development, it is recommended to also install (and use!)
 
@@ -93,7 +83,7 @@ Note: You have to checkout the corresponding branch as the build environment and
 can significantly differ.
 
 
-## Supported boards
+## Supported machines and images
 
 The approach is to gradually expand the support on different platforms, starting with some of the widely
 used development boards, such as the Raspberry Pi.
@@ -103,41 +93,43 @@ Currently supported boards:
 - RaspberryPi 3 B+ _[MACHINE=raspberrypi3]_
 - QEMU _[MACHINE=qemux86-64]_
 
-For using QEMU, simply build the `full-image` (see below) and run the emulator with
+For these, the following images can be built:
+
+  - full-image              - Builds the full image (including recovery & system) with the configured sub-images.
+  - system-update-bundle    - Builds a system update bundle with the configured sub-image.
+  - recovery-update-bundle  - Builds a recovery update bundle with the configured sub-image.
+
+  - custom-recovery-image   - Builds the recovery image only, with custom applications included.
+  - custom-system-image     - Builds the system image only, with custom applications included.
+
+For using QEMU, simply build the `full-image` and run the emulator with
 
 ```bash
-./run-env.sh
+./run-kas shell 
 runqemu full-image wic nographic ovmf slirp
 ```
 
 
 ## Configuring the project
 
-The build system is needs to be configured using an `.env` file, as documented [in the environment docs here](./environment/Readme.md). 
-Default bitbake conf templates are located under `./config`.
+The overall configuration is managed via the [kas](https://github.com/siemens/kas) tool.
+It's main configuration can be found under [`./conf`](./conf).
 
-The board specifc integrations can be selected using the appropriate `MACHINE` configuration (see above).
-For a correct configuration however, the `local.conf` must contain the `include conf/machine/${MACHINE}-extra.conf` statement.
+Besides, the customizable features can be configured using an `.env` file. See `.env.example` for a reference of the syntax.
 
-Further required configuration parameters:
-```
-MACHINE               | Machine to build for.
-BSP_LAYERS            | Layers containing the machine configuration and BSP packages (must be absolute paths, separated by colon).
-```
-
-See `.env.example` for a reference of the syntax.
+The board specifc integrations can be selected using the appropriate `MACHINE` name in the `run` commands (see above).
 
 
 ## Building the project
 
-To enter the build environment, simply execute `run-env.sh`. You can also forward build commands such as `bitbake -h` to this script.
+Like the configuration, the build environment is provided by [kas](https://github.com/siemens/kas).
+The `./run-kas` script provided in this repo is only a shallow wrapper around the scripts copied from upstream kas, 
+currently at version 4.5, like recommended by the respective documentation.
 
-For example, execute `run-env.sh "MACHINE=raspberrypi3 BSP_LAYER=meta-raspberrypi bitbake full-image"` to start a build for one of the supported boards.
-
-**Note**: If you are on a non-release branch, be sure to start the environment with `RELEASE_TAG=<release> ./run-env.sh`.
-
-The environment also allows you to expose additional variables to the bitbake environment using the standard Yocto way, 
-via `BB_ENV_PASSTHROUGH_ADDITIONS="MYVAR1 MYVAR2"`.
+If you want to stay in the bitbake environment (and not only execute a single build command), you can use
+```bash
+./run-kas shell <machine>
+```
 
 
 ## Deploying build artifacts
@@ -170,11 +162,3 @@ sw-mode-control start-system|start-recovery
 ## Contribution
 
 Feel free to contact me in case you have feature proposals or want to contribute.
-
-### Common development pitfalls
-
-**Setting up the build environment fails**
-
-If you develop on a different branch than one of the main branches (and use `/` in your branch name),
-rebuilding the Docker environment will fail unless you specify the `RELEASE_TAG` environment variable
-before building.
