@@ -1,0 +1,11 @@
+header:
+  version: 1
+
+env:
+  REPRODUCIBLE_TIMESTAMP: "1704106800"
+
+local_conf_header:
+  local-mirror: |
+    SOURCE_MIRROR_URL ?= "file://${TOPDIR}/../mirror"
+    INHERIT += "own-mirrors"
+    BB_GENERATE_MIRROR_TARBALLS = "1"
