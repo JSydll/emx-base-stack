@@ -48,11 +48,6 @@ function checkout_latest_upstream() {
     fi
 }
 
-function patch_known_issues() {
-    # https://github.com/eclipse/hawkbit/issues/1366: Bump up the MySQL version to 8.0
-    sed -i 's|mysql:5.7|mysql:8.0|' "${HAWKBIT_SOURCE_DIR}/hawkbit-runtime/docker/docker-compose.yml"
-}
-
 function install_scripts() {
     cp -r "${SCRIPT_DIR}/run" "${INSTALL_DIR}"
 
@@ -96,8 +91,6 @@ install_required_packages
 
 echo "Checking out latest upstream sources in ${INSTALL_DIR}/hawkbit..."
 checkout_latest_upstream
-# This shall be removed as soon as upstream issues are resolved:
-patch_known_issues
 
 echo "Installing scripts..."
 install_scripts
