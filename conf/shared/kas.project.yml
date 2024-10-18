@@ -4,6 +4,7 @@ header:
   version: 1
   includes:
     - conf/shared/kas.reproducibility.yml
+    - conf/shared/kas.local-mirror.yml
     - layers/meta-multiboot-update/conf/kas.meta-multiboot-update.yml
     - repo: meta-common-emx
       file: conf/kas.meta-common-emx.yml
