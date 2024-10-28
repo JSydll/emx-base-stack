@@ -1,6 +1,6 @@
 # Embedded Linux Base Stack
 
-[![Build [kirkstone|raspberrypi]](https://ci.seydell.org/buildStatus/icon?job=emx-base-stack_kirkstone_raspberrypi3&subject=kirkstone/raspberrypi3)](https://ci.seydell.org/job/emx-base-stack_kirkstone_raspberrypi3/)
+[![Build [scarthgap|raspberrypi]](https://ci.seydell.org/buildStatus/icon?job=emx-base-stack_scarthgap_raspberrypi3&subject=scarthgap/raspberrypi3)](https://ci.seydell.org/job/emx-base-stack_scarthgap_raspberrypi3/)
 
 This repository aims to provide a reference implementation for updateable, secure embedded Linux systems
 that are built with the Yocto build system.
