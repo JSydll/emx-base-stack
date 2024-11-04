@@ -115,7 +115,7 @@ For using QEMU, simply build the `full-image` and run the emulator with
 
 ```bash
 ./run-kas shell conf/kas.<machine>.yml
-runqemu full-image wic nographic ovmf slirp
+BIOS=tmp/deploy/images/qemuarm-multiboot/u-boot.bin runqemu full-image wic.qcow2 nographic serial slirp
 ```
 
 

@@ -1,7 +1,7 @@
 header:
   version: 1
 
-machine: qemux86-64-multiboot
+machine: qemuarm-multiboot
 
 repos:
   emx-base-stack:

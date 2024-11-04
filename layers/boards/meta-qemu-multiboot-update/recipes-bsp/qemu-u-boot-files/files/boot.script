@@ -1,0 +1,69 @@
+# Environment variables expected by RAUC
+# See https://rauc.readthedocs.io/en/latest/integration.html#set-up-u-boot-boot-script-for-rauc
+test -n "${BOOT_ORDER}" || setenv BOOT_ORDER "system recovery"
+test -n "${BOOT_system_LEFT}" || setenv BOOT_system_LEFT 3
+test -n "${BOOT_recovery_LEFT}" || setenv BOOT_recovery_LEFT 3
+
+# Partition scheme as defined in meta-multiboot-update/wic/multiboot.wks.in
+setenv virtio_device_num "0"
+setenv bootloader_env_partition "1"
+setenv dtb_file_name "qemuarm.dtb"
+
+setenv bootargs_default ""
+
+setenv kernel_partition
+setenv rootfs_partition
+setenv rootfs_type
+setenv rauc_slot
+
+echo "=== Determining active slot to be booted ==="
+for slot in "${BOOT_ORDER}"; do
+  if test "x${rauc_slot}" != "x"; then
+    # rauc_slot already found, performing no-op
+    echo "[DEBUG] Skipping ${slot} slot..."
+  elif test "x${slot}" = "xrecovery"; then
+    if test ${BOOT_recovery_LEFT} -gt 0; then
+      setexpr BOOT_recovery_LEFT ${BOOT_recovery_LEFT} - 1
+      setenv kernel_partition "2"
+      setenv rootfs_partition "3"
+      setenv rootfs_type "squashfs"
+      setenv rauc_slot "recovery"
+      echo "[INFO] Selected recovery slot (kernel in p2, rootfs in p3)!"
+    fi
+  elif test "x${slot}" = "xsystem"; then
+    if test ${BOOT_system_LEFT} -gt 0; then
+      setexpr BOOT_system_LEFT ${BOOT_system_LEFT} - 1
+      setenv kernel_partition "4"
+      setenv rootfs_partition "5"
+      setenv rootfs_type "ext4"
+      setenv rauc_slot "system"
+      echo "[INFO] Selected system slot (kernel in p4, rootfs in p5)!"
+    fi
+  fi
+done
+
+if test "x${rauc_slot}" = "x"; then
+  echo "[ERROR] No valid slot found! Resetting tries to 3 and exiting script..."
+  setenv BOOT_system_LEFT 3
+  setenv BOOT_recovery_LEFT 3
+  saveenv
+  exit
+fi
+
+echo "=== Loading device tree (${dtb_file_name}) from p${kernel_partition} to ${fdt_addr} ==="
+fatload virtio ${virtio_device_num}:${kernel_partition} ${fdt_addr} ${dtb_file_name}
+
+echo "=== Loading kernel zImage from p${kernel_partition} to ${kernel_addr_r} ==="
+fatload virtio ${virtio_device_num}:${kernel_partition} ${kernel_addr_r} zImage
+
+echo "=== Setting bootargs (rootfs in p${rootfs_partition} and slot ${rauc_slot}) ==="
+setenv bootargs "${bootargs_default} root=/dev/vda${rootfs_partition} rootfstype=${rootfs_type} rauc.slot=${rauc_slot}"
+echo "[DEBUG] bootargs: ${bootargs}"
+
+echo "=== Persisting environment in p${bootloader_env_partition} ==="
+if test ! -e virtio ${virtio_device_num}:${bootloader_env_partition} uboot.env; then 
+  saveenv
+fi
+
+echo "=== Booting the system now! ==="
+bootz ${kernel_addr_r} - ${fdt_addr}

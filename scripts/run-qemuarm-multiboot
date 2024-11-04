@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+readonly SCRIPT_DIR
+readonly REPO_ROOT="${SCRIPT_DIR}/../"
+
+(
+cd ${REPO_ROOT}
+./run-kas shell conf/kas.qemuarm.yml \
+    -c "BIOS=tmp/deploy/images/qemuarm-multiboot/u-boot.bin \
+        runqemu full-image wic.qcow2 nographic serial slirp"
+)
