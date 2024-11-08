@@ -14,10 +14,10 @@ python __anonymous() {
     bb.debug(2, "Setting bootloader properties (%s, %s, dual bootloader: %s)..." % (bootloader, ptable_type, enable_dual_bootloader))
 
     device = ""
-    if "mmc" in storage_type:
+    if storage_type == "mmc":
         device = "/dev/" + d.getVar("MMC_BLOCK_DEVICE") + "p"
-    elif "sda" in storage_type:
-        device = "/dev/sda"
+    elif storage_type in ["sda", "vda"]:
+        device = "/dev/" + storage_type
     else:
         bb.error("Unsupported (yet) storage type: %s!" % storage_type)
 

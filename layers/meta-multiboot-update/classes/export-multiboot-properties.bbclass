@@ -6,6 +6,7 @@
 python __anonymous() {
     storage_type = d.getVar("STORAGE_TYPE")
     ptable_type = d.getVar("PTABLE_TYPE")
+    
     enable_dual_bootloader = d.getVar("ENABLE_DUAL_BOOTLOADER")
 
     if not storage_type or not ptable_type:
@@ -15,10 +16,10 @@ python __anonymous() {
 
     # Determine the slot layout
     device = ""
-    if "mmc" in storage_type:
+    if storage_type == "mmc":
         device = "/dev/" + d.getVar("MMC_BLOCK_DEVICE") + "p"
-    elif "sda" in storage_type:
-        device = "/dev/sda"
+    elif storage_type in ["sda", "vda"]:
+        device = "/dev/" + storage_type
     else:
         bb.error("Unsupported (yet) storage type: %s!" % storage_type)
 

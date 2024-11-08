@@ -18,9 +18,6 @@ FS_PARTITION_TYPE[doc]    = "Type of partition used for the persistent filesyste
 FS_SOFTWARE_MODE   ?= "system"
 FS_PARTITION_TYPE  ?= "ext4"
 
-# Storage type specific extensions
-require robust-filesystem-init-config-${STORAGE_TYPE}.inc
-
 python() {
     dev_path = d.getVar("FS_PERSISTENT_DEVICE", True)
     if dev_path == "" or "/dev/" not in dev_path:

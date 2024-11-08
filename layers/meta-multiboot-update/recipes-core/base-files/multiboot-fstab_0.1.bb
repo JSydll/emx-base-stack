@@ -23,6 +23,3 @@ do_install() {
     install -m 0775 ${WORKDIR}/etc/fstab.ro ${D}/${sysconfdir}/fstab
     cat ${WORKDIR}/etc/fstab.shared >> ${D}/${sysconfdir}/fstab
 }
-
-# Storage type specific extensions
-include multiboot-extramounts-${STORAGE_TYPE}.inc
