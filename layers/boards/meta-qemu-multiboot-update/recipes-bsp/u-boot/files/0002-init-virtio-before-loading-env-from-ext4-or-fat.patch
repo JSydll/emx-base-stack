@@ -1,0 +1,89 @@
+From 282754ed28a59bd665090d74defde5bf0be704d9 Mon Sep 17 00:00:00 2001
+From: Fiona Klute <fiona.klute@gmx.de>
+Date: Wed, 1 May 2024 10:54:09 +0200
+Subject: [PATCH] Init virtio before loading ENV from EXT4 or FAT
+
+Specifying a file in an EXT4 or FAT partition on a virtio device as
+environment location failed because virtio hadn't been initialized by
+the time the environment was loaded. This patch mirrors commit
+54ee5ae84191 ("Add SCSI scan for ENV in EXT4 or FAT") in issue and
+fix, just for a different kind of block device.
+
+The additional include in include/virtio.h is needed so all functions
+called there are defined, the alternative would have been to include
+dm/device.h separately in the env/ sources.
+
+Checkpatch suggests using "if (IS_ENABLED(CONFIG...))" instead of
+"#if defined(CONFIG_...)", I'm sticking to the style of the existing
+code here.
+
+Signed-off-by: Fiona Klute <fiona.klute@gmx.de>
+CC: Joe Hershberger <joe.hershberger@ni.com>
+CC: Bin Meng <bmeng.cn@gmail.com>
+CC: Rogier Stam <rogier@unrailed.org>
+
+Upstream-Status: Backport [2024.10]
+---
+ env/ext4.c       | 5 +++++
+ env/fat.c        | 5 +++++
+ include/virtio.h | 1 +
+ 3 files changed, 11 insertions(+)
+
+diff --git a/env/ext4.c b/env/ext4.c
+index 47e05a4891..99b61c9eea 100644
+--- a/env/ext4.c
++++ b/env/ext4.c
+@@ -32,6 +32,7 @@
+ #include <ext4fs.h>
+ #include <mmc.h>
+ #include <scsi.h>
++#include <virtio.h>
+ #include <asm/global_data.h>
+ 
+ DECLARE_GLOBAL_DATA_PTR;
+@@ -151,6 +152,10 @@ static int env_ext4_load(void)
+ 	if (!strcmp(ifname, "scsi"))
+ 		scsi_scan(true);
+ #endif
++#if defined(CONFIG_VIRTIO)
++	if (!strcmp(ifname, "virtio"))
++		virtio_init();
++#endif
+ 
+ 	part = blk_get_device_part_str(ifname, dev_and_part,
+ 				       &dev_desc, &info, 1);
+diff --git a/env/fat.c b/env/fat.c
+index 3172130d75..d87a47b100 100644
+--- a/env/fat.c
++++ b/env/fat.c
+@@ -18,6 +18,7 @@
+ #include <fat.h>
+ #include <mmc.h>
+ #include <scsi.h>
++#include <virtio.h>
+ #include <asm/cache.h>
+ #include <asm/global_data.h>
+ #include <linux/stddef.h>
+@@ -134,6 +135,10 @@ static int env_fat_load(void)
+ 	if (!strcmp(CONFIG_ENV_FAT_INTERFACE, "scsi"))
+ 		scsi_scan(true);
+ #endif
++#if defined(CONFIG_VIRTIO)
++	if (!strcmp(ifname, "virtio"))
++		virtio_init();
++#endif
+ #endif
+ 	part = blk_get_device_part_str(ifname, dev_and_part,
+ 				       &dev_desc, &info, 1);
+diff --git a/include/virtio.h b/include/virtio.h
+index 062a24630c..8113a59d79 100644
+--- a/include/virtio.h
++++ b/include/virtio.h
+@@ -21,6 +21,7 @@
+ #define __VIRTIO_H__
+ 
+ #include <virtio_types.h>
++#include <dm/device.h>
+ #include <linux/bitops.h>
+ #include <linux/bug.h>
+ #define VIRTIO_ID_NET		1 /* virtio net */

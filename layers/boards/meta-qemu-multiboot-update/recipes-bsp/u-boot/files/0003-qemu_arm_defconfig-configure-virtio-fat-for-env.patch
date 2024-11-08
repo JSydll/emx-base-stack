@@ -1,0 +1,37 @@
+From c75d3b8ac4b24b8a0737a393cb766b55380cf2ff Mon Sep 17 00:00:00 2001
+From: Joschka Seydell <joschka@seydell.org>
+Date: Fri, 8 Nov 2024 22:43:28 +0100
+Subject: [PATCH] qemu_arm_defconfig: Configure virtio/fat for loading
+ environment.
+
+Account for the dedicated FAT partition used for bootloader environment and data.
+
+Upstream-Status: Inappropriate [oe-specific]
+
+---
+ configs/qemu_arm_defconfig | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/configs/qemu_arm_defconfig b/configs/qemu_arm_defconfig
+index 9cc1f5f7c4..31c7ae950e 100644
+--- a/configs/qemu_arm_defconfig
++++ b/configs/qemu_arm_defconfig
+@@ -14,6 +14,10 @@ CONFIG_DEBUG_UART_CLOCK=0
+ CONFIG_ARMV7_LPAE=y
+ CONFIG_SYS_LOAD_ADDR=0x40200000
+ CONFIG_ENV_ADDR=0x4000000
++CONFIG_ENV_IS_IN_FAT=y
++CONFIG_ENV_FAT_INTERFACE="virtio"
++CONFIG_ENV_FAT_DEVICE_AND_PART="0:1"
++CONFIG_ENV_FAT_FILE="uboot.env"
+ CONFIG_PCI=y
+ CONFIG_DEBUG_UART=y
+ CONFIG_AHCI=y
+@@ -36,7 +40,6 @@ CONFIG_CMD_MTD=y
+ CONFIG_CMD_PCI=y
+ CONFIG_CMD_TPM=y
+ CONFIG_CMD_MTDPARTS=y
+-CONFIG_ENV_IS_IN_FLASH=y
+ CONFIG_SCSI_AHCI=y
+ CONFIG_AHCI_PCI=y
+ CONFIG_DFU_TFTP=y
