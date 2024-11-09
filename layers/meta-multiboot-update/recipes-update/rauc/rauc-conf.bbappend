@@ -12,9 +12,16 @@ TEMPLATE_FILE = "${WORKDIR}/system.conf.j2"
 # Add the variables used below to the environment
 include rauc-environment.inc
 
+# Variables depending on the robust filesystem setup
+RDEPENDS:${PN} += " \
+    robust-filesystem-init \    
+"
+RAUC_DATA_DIRECTORY ??= "${localstatedir}/persistent/shared/rauc"
+
 python do_patch:append() {
     params = {
-        "product_name" : d.getVar("PRODUCT_NAME"),
+        "product_name": d.getVar("PRODUCT_NAME"),
+        "data_directory": d.getVar("RAUC_DATA_DIRECTORY"),
         "bootloader": d.getVar("BOOTLOADER"),
         "extra_bootloader_options": d.getVar("EXTRA_BOOTLOADER_OPTIONS"),
         "bootloader_slot_conf": d.getVar("BOOTLOADER_SLOT_CONF"),
