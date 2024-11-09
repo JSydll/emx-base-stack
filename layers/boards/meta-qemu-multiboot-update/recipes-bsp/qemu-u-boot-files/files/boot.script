@@ -61,9 +61,7 @@ setenv bootargs "${bootargs_default} root=/dev/vda${rootfs_partition} rootfstype
 echo "[DEBUG] bootargs: ${bootargs}"
 
 echo "=== Persisting environment in p${bootloader_env_partition} ==="
-if test ! -e virtio ${virtio_device_num}:${bootloader_env_partition} uboot.env; then 
-  saveenv
-fi
+saveenv
 
 echo "=== Booting the system now! ==="
 bootz ${kernel_addr_r} - ${fdt_addr}
