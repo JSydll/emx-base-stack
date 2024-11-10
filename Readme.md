@@ -111,13 +111,6 @@ For these, the following images can be built:
   - custom-recovery-image   - Builds the recovery image only, with custom applications included.
   - custom-system-image     - Builds the system image only, with custom applications included.
 
-For using QEMU, simply build the `full-image` and run the emulator with
-
-```bash
-./run-kas shell conf/kas.<machine>.yml
-BIOS=tmp/deploy/images/qemuarm-multiboot/u-boot.bin runqemu full-image wic.qcow2 nographic serial slirp
-```
-
 
 ## Configuring the project
 
@@ -166,6 +159,26 @@ To switch modes, you can use
 ```bash
 sw-mode-control start-system|start-recovery
 ```
+
+## Emulation with QEMU
+
+As mentioned above, there is a `qemuarm` based configuration that now supports the full multiboot setup.
+For using it, simply build the `full-image` and run the emulator with
+
+```bash
+scripts/run-qemuarm-multiboot
+```
+
+The emulator is configured to expose SSH on port `2222`. For running the above script on host,
+network isolation of the spawned container is turned off, so you should see the listening port when running `ss -tlp`.
+When externally starting a container before calling the script, be sure to configure it appropriately.
+
+Logging into the virtual device should then be as easy as
+```bash
+ssh -p 2222 root@localhost
+```
+
+Then, you can inspect the build result, test new applications or install updates.
 
 
 ## Contribution
