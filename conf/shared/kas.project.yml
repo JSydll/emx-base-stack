@@ -54,8 +54,8 @@ local_conf_header:
     CONF_VERSION = "2"
 
     # --- Device / distro infos ---
-    PRODUCT_NAME = "updatable-pi"
-    PRODUCT_VERSION = "0.2.1"
+    PRODUCT_NAME = "emx-base-demo"
+    PRODUCT_VERSION = "0.3.0"
 
     hostname:pn-base-files = "${PRODUCT_NAME}"
     DISTRO_NAME:pn-base-files = "emx-base"
