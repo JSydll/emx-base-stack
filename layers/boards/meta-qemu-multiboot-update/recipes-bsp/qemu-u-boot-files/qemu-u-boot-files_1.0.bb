@@ -20,23 +20,24 @@ INHIBIT_DEFAULT_DEPS = "1"
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 COMPATIBLE_MACHINE = "(qemuarm|qemuarm-multiboot)"
 
-do_uboot_mkimage () {
+do_uboot_mkimage() {
     uboot-mkimage -A arm -O linux -T script -C none -a 0 -e 0 \
                   -n "U-boot script" -d ${WORKDIR}/boot.script \
                   ${B}/boot.scr
 }
-addtask uboot_mkimage after do_compile before do_install
+addtask uboot_mkimage after do_compile before do_build
 
-do_install () {
+do_package_bootfiles() {
     mkdir -p ${WORKDIR}/bootfiles
     cp ${B}/boot.scr ${WORKDIR}/bootfiles
 
     bbdebug 2 "Packaging bootloader files in ${QEMU_BOOTLOADER_FILES_PACKAGE} archive..."
-    tar -czf ${D}/${QEMU_BOOTLOADER_FILES_PACKAGE} -C ${WORKDIR}/bootfiles .   
+    tar -czf ${D}/${QEMU_BOOTLOADER_FILES_PACKAGE} -C ${WORKDIR}/bootfiles .  
 }
+addtask package_bootfiles after do_uboot_mkimage before do_build
 
 # Provide the boot files archive in the deploy dir to allow wic to pick it up
-do_deploy () {
+do_deploy() {
     install -d ${DEPLOYDIR}
 
     bbdebug 2 "Provide bootloader files in ${DEPLOY_DIR_IMAGE}..."
@@ -48,4 +49,4 @@ do_deploy () {
     install -m 0644 ${D}/${QEMU_BOOTLOADER_FILES_PACKAGE} ${DEPLOYDIR}
 
 }
-addtask deploy after do_install before do_build
+addtask deploy after do_package_bootfiles before do_build
