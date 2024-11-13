@@ -160,6 +160,20 @@ To switch modes, you can use
 sw-mode-control start-system|start-recovery
 ```
 
+
+## Automated update flow
+
+There is an `update-observer` service that watches for update packages under `/media`. Currently,
+it does not account for running uploads, though, so be sure to first upload to a different location
+(for example `/tmp`) and then atomically `mv` the bundle into the watched folder.
+
+The service will attempt to detect whether a reboot into the other mode is required, perform this reboot,
+then install the update and eventually reboot to the `system` mode.
+
+It uses _file names_ to do that, so be sure to prefix your bundles with `system-update`
+or `recovery-update` respectively.
+
+
 ## Emulation with QEMU
 
 As mentioned above, there is a `qemuarm` based configuration that now supports the full multiboot setup.
@@ -178,7 +192,9 @@ Logging into the virtual device should then be as easy as
 ssh -p 2222 root@localhost
 ```
 
-Then, you can inspect the build result, test new applications or install updates.
+Note that `ssh` uses lower case `-p` while `scp` upper case `-P` to set the port.
+
+With this, you can inspect the build result, test new applications or install updates.
 
 
 ## Contribution
