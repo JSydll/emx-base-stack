@@ -14,6 +14,9 @@ PACKAGE_INSTALL = ""
 
 inherit image
 
+# We don't need the superflous .rootfs suffix
+IMAGE_NAME_SUFFIX = ""
+
 RECOVERY_IMAGE_NAME ?= "recovery-image"
 SYSTEM_IMAGE_NAME ?= "system-image"
 
