@@ -8,6 +8,8 @@ QEMU_BOOTLOADER_FILES_PACKAGE = "qemu-bootloader-files.tar.gz"
 PROVIDES += "u-boot-default-script"
 RPROVIDES:${PN} += "u-boot-default-script"
 
+ALLOW_EMPTY:${PN} = "1"
+
 SRC_URI = " \
     file://boot.script \
 "
@@ -32,7 +34,7 @@ do_package_bootfiles() {
     cp ${B}/boot.scr ${WORKDIR}/bootfiles
 
     bbdebug 2 "Packaging bootloader files in ${QEMU_BOOTLOADER_FILES_PACKAGE} archive..."
-    tar -czf ${D}/${QEMU_BOOTLOADER_FILES_PACKAGE} -C ${WORKDIR}/bootfiles .  
+    tar -czf ${WORKDIR}/${QEMU_BOOTLOADER_FILES_PACKAGE} -C ${WORKDIR}/bootfiles .  
 }
 addtask package_bootfiles after do_uboot_mkimage before do_build
 
@@ -46,7 +48,7 @@ do_deploy() {
     rm -f boot.scr
     ln -sf boot.scr-${MACHINE}-${PV}-${PR} boot.scr
 
-    install -m 0644 ${D}/${QEMU_BOOTLOADER_FILES_PACKAGE} ${DEPLOYDIR}
+    install -m 0644 ${WORKDIR}/${QEMU_BOOTLOADER_FILES_PACKAGE} ${DEPLOYDIR}
 
 }
 addtask deploy after do_package_bootfiles before do_build
