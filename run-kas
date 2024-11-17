@@ -37,8 +37,13 @@ if [[ -f "/.dockerenv" ]] || [[ -f "/run/.containerenv" ]]; then
   exit $?
 fi
 
+# When using the kas-container, the repo gets mounted under /repo and we start the build in
+# /build (TOPDIR), so we need to account for that path structure.
+export LOCAL_MIRROR_DIR="../repo/mirror"
+
 # Running directly on the host, so use containerization
 readonly KAS_RUNTIME_ARGS="\
+  -e LOCAL_MIRROR_DIR=${LOCAL_MIRROR_DIR} \
   -e REPRODUCIBLE_TIMESTAMP=${REPRODUCIBLE_TIMESTAMP} \
   -e ROOT_PWD=${ROOT_PWD} \
   -e KEYBOARD_PROFILE=${KEYBOARD_PROFILE} \
